@@ -11,23 +11,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class DashboardController implements Initializable {
+public class DashboardController {
 
-     public Text user_name;
-    public Label login_date;
-    public Label checking_bal;
-    public Label checking_acc_num;
-    public Label savings_bal;
-    public Label savings_acc_num;
-    public Label income_lbl;
-    public Label expense_lbl;
-    public ListView transaction_listview;
-    public TextField payee_address_fld;
-    public TextField amount_fld;
-    public TextArea message_fld;
-    public Button send_money_btn;
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        
-    }
+public Text user_name;
+public Label date_login_lbl;
+public Label checking_bal;
+public Label saving_bal;
+public Label checking_acc_num;
+public Label saving_acc_num;
+public Label income_amount;
+public Text expense_amount;
+public ListView transaction_listview;
+public TextField payee_fld;
+public TextField amount_fld;
+public TextArea message_fld;
+public Button send_money_btn; 
 }

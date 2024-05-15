@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.java.Views.ViewFactory;
+import main.java.Models.Model;
 
 import java.io.IOException;
 
@@ -18,8 +18,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        ViewFactory viewFactory=new ViewFactory();
-        viewFactory.showClientWindow();
+        // Scene scene=new Scene(loadFXML("Client/ClientMenu"));
+        // stage.setScene(scene);
+        // stage.show();
+        Model.getInstance().getViewFactory().showLoginPage();
     }
 
     static void setRoot(String fxml) throws IOException {
