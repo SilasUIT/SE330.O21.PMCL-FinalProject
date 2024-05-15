@@ -1,11 +1,9 @@
 module main.java {
     requires javafx.controls;
     requires javafx.fxml;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.ikonli.fontawesome;
+    requires javafx.graphics;
+    requires de.jensd.fx.glyphs.fontawesome;
     requires org.mongodb.driver.sync.client;    
-    
-    
     
     opens main.java to javafx.fxml;
     exports main.java;
