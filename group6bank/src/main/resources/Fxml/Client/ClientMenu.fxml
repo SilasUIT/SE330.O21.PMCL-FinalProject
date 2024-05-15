@@ -30,7 +30,7 @@
                         <FontAwesomeIconView glyphName="HANDSHAKE_ALT" size="20" />
                      </graphic>
                   </Button>
-                  <Button fx:id="logout_btn" mnemonicParsing="false" text="Danh bạ">
+                  <Button fx:id="logout_btn" mnemonicParsing="false" text="Tài khoản">
                      <graphic>
                         <FontAwesomeIconView glyphName="ADDRESS_BOOK_ALT" size="20" />
                      </graphic>
