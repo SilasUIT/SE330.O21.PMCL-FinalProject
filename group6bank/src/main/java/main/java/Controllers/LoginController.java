@@ -12,15 +12,18 @@ import javafx.stage.Stage;
 import main.java.Models.Model;
 
 public class LoginController implements Initializable {
-    public ChoiceBox acc_selector;
+    public ChoiceBox<String> acc_selector;
     public Label payee_address_lbl;
     public TextField payee_address_fld;
     public TextField password_fld;
     public Button login_btn;
     public Label error_lbl;
+
+
+    private String[] choose={"admin","khách hàng"};
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        
+        acc_selector.getItems().addAll(choose);
         login_btn.setOnAction(e->onlogin() );
     }
 

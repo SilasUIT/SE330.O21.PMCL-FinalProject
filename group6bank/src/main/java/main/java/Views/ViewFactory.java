@@ -6,21 +6,35 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import main.java.Controllers.Admin.AdminController;
 import main.java.Controllers.Client.ClientController;
 
 public class ViewFactory {
     private AnchorPane dashboardView;
     private AnchorPane transactionsView;
     private AnchorPane accountsView;
+
+
+
+    private AnchorPane adminCreateClientView;
+    private AnchorPane adminClientsView;
+    private AnchorPane adminDepositView;
+
     private StringProperty clientSelectedMenu;
+    private StringProperty adminSelectedMenu;
 
     public ViewFactory() {
         this.clientSelectedMenu = new SimpleStringProperty("");
+        this.adminSelectedMenu = new SimpleStringProperty("");
     }
 
     public StringProperty getSelectedMenuItems() {
         
         return clientSelectedMenu;
+    }
+    public StringProperty getSelectedAdminMenuItems() {
+        
+        return adminSelectedMenu;
     }
 
     public AnchorPane getDashboardView() {
@@ -55,6 +69,40 @@ public class ViewFactory {
         return accountsView;
     }
 
+    public AnchorPane getadminCreateClientView() {
+        if (adminCreateClientView == null) {
+            try {
+                adminCreateClientView = new FXMLLoader(getClass().getResource("/Fxml/Admin/CreateClient.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return adminCreateClientView;
+    }
+
+    public AnchorPane getadminClientsView() {
+        if (adminClientsView == null) {
+            try {
+                adminClientsView = new FXMLLoader(getClass().getResource("/Fxml/Admin/Clients.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return adminClientsView;
+    }
+
+    public AnchorPane getadminDepositView() {
+        if (adminDepositView == null) {
+            try {
+                adminDepositView = new FXMLLoader(getClass().getResource("/Fxml/Admin/Deposit.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return adminDepositView;
+    }
+    
+
     public void showLoginPage() {
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Login.fxml"));
@@ -65,6 +113,13 @@ public class ViewFactory {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Client/Client.fxml"));
         ClientController clientController = new ClientController();
         loader.setController(clientController);
+        createStage(loader);
+    }
+
+    public void showAdminWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Admin.fxml"));
+        AdminController adminController = new AdminController();
+        loader.setController(adminController);
         createStage(loader);
     }
 

@@ -4,10 +4,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml" 
-            fx:controller="main.java.Controllers.AdminController"
+            fx:id="admin_parent"
             >
             <left>
                 <fx:include source="AdminMenu.fxml"/>
             </left>
-        
+        <center>
+            <fx:include source="CreateClient.fxml">
+
+            </fx:include>
+        </center>
 </BorderPane>
