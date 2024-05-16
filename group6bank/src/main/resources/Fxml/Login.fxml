@@ -25,7 +25,7 @@
             <Label text="Mật khẩu" />
             <TextField fx:id="password_fld" styleClass="input_field" />
             <Button fx:id="login_btn" mnemonicParsing="false" text="Đăng nhập" />
-            <Label fx:id="error_lbl" styleClass="error_lbl" text="Lỗi:" />
+            <Label fx:id="error_lbl" styleClass="error_lbl"/>
          
       </VBox>
    

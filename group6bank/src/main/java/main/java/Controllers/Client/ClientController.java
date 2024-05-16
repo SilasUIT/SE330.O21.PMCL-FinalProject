@@ -8,7 +8,7 @@ import main.java.Models.Model;
 
 public class ClientController implements Initializable {
     public BorderPane client_parent;
-
+    
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         Model.getInstance().getViewFactory().getSelectedMenuItems().addListener((obsvalue, oldval, newval) -> {

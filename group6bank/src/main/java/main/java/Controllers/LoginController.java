@@ -20,7 +20,7 @@ public class LoginController implements Initializable {
     public Label error_lbl;
 
 
-    private String[] choose={"admin","khách hàng"};
+    private String[] choose={"Quản trị viên","Khách hàng"};
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         acc_selector.getItems().addAll(choose);

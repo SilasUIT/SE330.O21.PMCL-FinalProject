@@ -23,7 +23,7 @@
          <children>
             <AnchorPane prefHeight="150.0" prefWidth="295.0">
                <children>
-                  <Label fx:id="checking_bal" layoutX="19.0" layoutY="17.0" styleClass="account_balance" text="32000000 VND" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
+                  <Label fx:id="checking_bal" layoutX="19.0" layoutY="17.0" styleClass="account_balance" text="32,000,000,000 VND" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
                   <Label layoutX="19.0" layoutY="70.0" styleClass="account_number" text="**** **** ****" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="14.0" />
                   <Label fx:id="checking_acc_num" layoutX="99.0" layoutY="118.0" styleClass="account_number" text="4558" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="138.0" />
                   <VBox layoutX="191.0" layoutY="16.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="14.0" />
@@ -37,7 +37,7 @@
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="295.0">
                <children>
-                  <Label fx:id="saving_bal" layoutX="19.0" layoutY="17.0" styleClass="account_balance" text="32000000 VND" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
+                  <Label fx:id="saving_bal" layoutX="19.0" layoutY="17.0" styleClass="account_balance" text="32,000,000 VND" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
                   <Label layoutX="19.0" layoutY="70.0" styleClass="account_number" text="**** **** ****" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="14.0" />
                   <Label fx:id="saving_acc_num" layoutX="99.0" layoutY="118.0" styleClass="account_number" text="4558" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="138.0" />
                   <VBox layoutX="191.0" layoutY="16.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="14.0" />

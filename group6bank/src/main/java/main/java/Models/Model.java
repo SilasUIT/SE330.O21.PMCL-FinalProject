@@ -24,5 +24,4 @@ public class Model {
         return viewFactory;
     }
 
-
 }

@@ -18,18 +18,18 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày tạo" />
       <Label fx:id="ch_acc_date" text="14/05/2024" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số dư" />
-      <Label fx:id="ch_acc_bal" text="30.000.000VNĐ" />
+      <Label fx:id="ch_acc_bal" text="30,000,000 VND" />
    </VBox>
    <Text layoutX="14.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tài khoản tiết kiệm" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="364.0" />
    <VBox layoutX="14.0" layoutY="397.0" prefHeight="300.0" prefWidth="450.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0">
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số tài khoản" />
       <Label fx:id="sv_acc_num" text="015 21637" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giới hạn rút" />
-      <Label fx:id="withdrawal_limit" text="2.000.000" />
+      <Label fx:id="withdrawal_limit" text="2,000,000 VND" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày tạo" />
       <Label fx:id="sv_acc_date" text="15/05/2024" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số dư" />
-      <Label fx:id="sv_acc_bal" text="60.000.000" />
+      <Label fx:id="sv_acc_bal" text="60,000,000 VND" />
    </VBox>
    <Text layoutX="527.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển vào tài khoản tiết kiệm:" AnchorPane.rightAnchor="164.0" AnchorPane.topAnchor="38.0" />
    <TextField fx:id="amount_to_sv" layoutX="464.0" layoutY="72.0" prefHeight="26.0" prefWidth="221.0" AnchorPane.rightAnchor="164.0" AnchorPane.topAnchor="72.0" />

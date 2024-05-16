@@ -10,12 +10,13 @@ import main.java.Controllers.Admin.AdminController;
 import main.java.Controllers.Client.ClientController;
 
 public class ViewFactory {
+    // Client views
     private AnchorPane dashboardView;
     private AnchorPane transactionsView;
     private AnchorPane accountsView;
 
 
-
+    // Admin views
     private AnchorPane adminCreateClientView;
     private AnchorPane adminClientsView;
     private AnchorPane adminDepositView;
