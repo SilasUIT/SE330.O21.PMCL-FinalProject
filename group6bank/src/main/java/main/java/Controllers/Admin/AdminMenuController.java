@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import main.java.Models.Model;
+import main.java.Views.AdminMenuOptions;
 
 public class AdminMenuController implements Initializable {
     public Button create_client_btn;
@@ -27,15 +28,15 @@ public class AdminMenuController implements Initializable {
 
     private void onClickCreateClient()
     {
-        Model.getInstance().getViewFactory().getSelectedAdminMenuItems().set("CreateClient");
+        Model.getInstance().getViewFactory().getSelectedAdminMenuItems().set(AdminMenuOptions.CREATE_CLIENT);
     }
     private void onClickClients()
     {
-        Model.getInstance().getViewFactory().getSelectedAdminMenuItems().set("Clients");
+        Model.getInstance().getViewFactory().getSelectedAdminMenuItems().set(AdminMenuOptions.CLIENTS);
     }
     private void onClickDeposit()
     {
-        Model.getInstance().getViewFactory().getSelectedAdminMenuItems().set("Deposit");
+        Model.getInstance().getViewFactory().getSelectedAdminMenuItems().set(AdminMenuOptions.DEPOSIT);
     }
 }
 

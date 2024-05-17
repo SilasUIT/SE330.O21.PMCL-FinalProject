@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import main.java.Models.Model;
+import main.java.Views.ClientMenuOptions;
 
 public class ClientMenuController implements Initializable {
     public Text name_bank;
@@ -29,14 +30,14 @@ public class ClientMenuController implements Initializable {
     }
 
     private void onDashboard() {
-        Model.getInstance().getViewFactory().getSelectedMenuItems().set("Dashboard");
+        Model.getInstance().getViewFactory().getSelectedMenuItems().set(ClientMenuOptions.DASHBOARD);
     }
 
     private void onTransactions() {
-        Model.getInstance().getViewFactory().getSelectedMenuItems().set("Transactions");
+        Model.getInstance().getViewFactory().getSelectedMenuItems().set(ClientMenuOptions.TRANSACTIONS);
     }
 
     private void onAccounts() {
-        Model.getInstance().getViewFactory().getSelectedMenuItems().set("Accounts");
+        Model.getInstance().getViewFactory().getSelectedMenuItems().set(ClientMenuOptions.ACCOUNTS);
     }
 }

@@ -22,6 +22,7 @@ public class App extends Application {
         // stage.setScene(scene);
         // stage.show();
         Model.getInstance().getViewFactory().showLoginPage();
+        //Model.getInstance().getViewFactory().showAdminWindow();
     }
 
     static void setRoot(String fxml) throws IOException {

@@ -1,5 +1,7 @@
 package main.java.Views;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +12,7 @@ import main.java.Controllers.Admin.AdminController;
 import main.java.Controllers.Client.ClientController;
 
 public class ViewFactory {
-    // Client views
+    // Client views    
     private AnchorPane dashboardView;
     private AnchorPane transactionsView;
     private AnchorPane accountsView;
@@ -21,22 +23,22 @@ public class ViewFactory {
     private AnchorPane adminClientsView;
     private AnchorPane adminDepositView;
 
-    private StringProperty clientSelectedMenu;
-    private StringProperty adminSelectedMenu;
+    private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;
+    private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
 
     public ViewFactory() {
-        this.clientSelectedMenu = new SimpleStringProperty("");
-        this.adminSelectedMenu = new SimpleStringProperty("");
-    }
+        this.clientSelectedMenuItem = new SimpleObjectProperty<>();
+        this.adminSelectedMenuItem = new SimpleObjectProperty<>();
+    }    
 
-    public StringProperty getSelectedMenuItems() {
-        
-        return clientSelectedMenu;
+    public ObjectProperty<ClientMenuOptions> getSelectedMenuItems() {
+        return clientSelectedMenuItem;
     }
-    public StringProperty getSelectedAdminMenuItems() {
+    public ObjectProperty<AdminMenuOptions> getSelectedAdminMenuItems() {
         
-        return adminSelectedMenu;
+        return adminSelectedMenuItem;
     }
+    /* Client views Section */
 
     public AnchorPane getDashboardView() {
         if (dashboardView == null) {
@@ -69,6 +71,8 @@ public class ViewFactory {
         }
         return accountsView;
     }
+
+    /*Admin views Section*/
 
     public AnchorPane getadminCreateClientView() {
         if (adminCreateClientView == null) {
