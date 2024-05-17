@@ -20,7 +20,7 @@ public Label saving_bal;
 public Label checking_acc_num;
 public Label saving_acc_num;
 public Label income_amount;
-public Text expense_amount;
+public Label expense_amount;
 public ListView transaction_listview;
 public TextField payee_fld;
 public TextField amount_fld;

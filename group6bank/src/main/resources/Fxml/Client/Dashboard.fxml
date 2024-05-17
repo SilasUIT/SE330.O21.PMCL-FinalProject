@@ -56,9 +56,10 @@
             <VBox prefHeight="200.0" prefWidth="100.0" styleClass="acc_summary_container">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Đầu vào" />
-                  <Label fx:id="income_amount" styleClass="income_amount" text="+ 300.000 VND" />
+                  <Label fx:id="income_amount" styleClass="income_amount" text="+ 300,000 VND" />
                   <Line endX="160.0" />
-                  <Text fx:id="expense_amount" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="expense_amount" text="- 700.000 VND" />
+                  <Text layoutX="21.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Đầu ra" />
+                  <Label fx:id="income_amount1" layoutX="21.0" layoutY="64.0" styleClass="expense_amount" text="- 700,000 VND" />
                </children>
             </VBox>
          </children>
@@ -72,7 +73,7 @@
             <TextField fx:id="payee_fld" />
             <Label text="Số tiền" />
             <TextField fx:id="amount_fld" />
-            <Label text="Nội dung" />
+            <Label text="Nội dung chuyển khoản" />
             <TextArea fx:id="message_fld" prefHeight="70.0" prefWidth="200.0" />
             <Button fx:id="send_money_btn" mnemonicParsing="false" text="Chuyển khoản" />
          </children>
