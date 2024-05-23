@@ -12,24 +12,33 @@ import main.java.Controllers.Admin.AdminController;
 import main.java.Controllers.Client.ClientController;
 
 public class ViewFactory {
-    // Client views    
+    private AccountType loginAccoutnType;
+    // Client views
+    private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;    
     private AnchorPane dashboardView;
     private AnchorPane transactionsView;
     private AnchorPane accountsView;
 
 
     // Admin views
+    private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
     private AnchorPane adminCreateClientView;
     private AnchorPane adminClientsView;
     private AnchorPane adminDepositView;
 
-    private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;
-    private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
-
     public ViewFactory() {
+        this.loginAccoutnType = AccountType.CLIENT;
         this.clientSelectedMenuItem = new SimpleObjectProperty<>();
         this.adminSelectedMenuItem = new SimpleObjectProperty<>();
     }    
+
+    public AccountType getLoginAccoutnType() {
+        return loginAccoutnType;
+    }
+
+    public void setLoginAccoutnType(AccountType loginAccoutnType) {
+        this.loginAccoutnType = loginAccoutnType;
+    }
 
     public ObjectProperty<ClientMenuOptions> getSelectedMenuItems() {
         return clientSelectedMenuItem;
@@ -73,7 +82,7 @@ public class ViewFactory {
     }
 
     /*Admin views Section*/
-
+    
     public AnchorPane getadminCreateClientView() {
         if (adminCreateClientView == null) {
             try {
