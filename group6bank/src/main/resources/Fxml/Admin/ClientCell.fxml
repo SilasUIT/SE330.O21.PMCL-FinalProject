@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane prefHeight="50.0" prefWidth="750.0" styleClass="client_cell_container" stylesheets="@../../Styles/ClientCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <FontAwesomeIconView glyphName="USER" size="20" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <HBox prefHeight="40.0" prefWidth="550.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <Label fx:id="name_lbl" text="Trần Tiến Đạt" />
+            <Label fx:id="pAddress_lbl" text="\@silas" />
+            <Label fx:id="ch_acc_lbl" styleClass="acc_display_lbl" text="21521951" />
+            <Label fx:id="sv_acc_lbl" styleClass="acc_display_lbl" text="21521637" />
+            <Label fx:id="date_lbl" text="31/5/2024" />
+         </children>
+      </HBox>
+      <Button fx:id="delete_btn" layoutX="668.0" layoutY="12.0" mnemonicParsing="false" styleClass="delete_btn" text="Xóa" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="WINDOW_CLOSE_ALT" />
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>
