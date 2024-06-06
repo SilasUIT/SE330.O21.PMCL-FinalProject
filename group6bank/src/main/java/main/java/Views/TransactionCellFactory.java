@@ -14,7 +14,7 @@ public class TransactionCellFactory extends ListCell<Transaction>{
             setGraphic(null);
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/TransactionCell.fxml")); 
-            TransactionCellController controller = new TransactionCellController();
+            TransactionCellController controller = new TransactionCellController(transaction);
             loader.setController(controller);
             setText(null);
             try {
