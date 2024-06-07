@@ -35,6 +35,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        DatabaseDriver databaseDriver = new DatabaseDriver();
         launch();
     }
 }
