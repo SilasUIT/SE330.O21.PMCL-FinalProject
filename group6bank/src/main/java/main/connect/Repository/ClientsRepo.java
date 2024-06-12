@@ -45,12 +45,20 @@ public class ClientsRepo {
 
             // Đóng kết nối
             conn.disconnect();
+            getCheckingAndSaving(client.getId());
             return client;
         } catch (IOException e) {
             // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
             e.printStackTrace();
             return null; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
         }
+    }
+
+    void getCheckingAndSaving(String id) {
+        SavingAccountRepo savingAccountRepo = new SavingAccountRepo();
+        CheckingAccountRepo checkingAccountRepo = new CheckingAccountRepo();
+        checkingAccountRepo.GetCheckingAccount(id);
+        savingAccountRepo.GetSavingAccount(id);
     }
 
 }

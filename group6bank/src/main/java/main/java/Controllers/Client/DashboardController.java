@@ -10,7 +10,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import main.connect.Models.CheckingAccount;
 import main.connect.Models.Clients;
+import main.connect.Models.SavingAccount;
 import main.java.GlobalData;
 
 public class DashboardController implements Initializable {
@@ -29,15 +31,28 @@ public class DashboardController implements Initializable {
     public TextArea message_fld;
     public Button send_money_btn;
     private Clients client;
+    private SavingAccount savingAccount;
+    private CheckingAccount checkingAccount;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         client = GlobalData.getInstance().getClient();
+        savingAccount = GlobalData.getInstance().getSavingAccount();
+        checkingAccount = GlobalData.getInstance().getCheckingAccount();
         LoadForm();
     }
 
     void LoadForm() {
 
+        user_name.setText(("Chào mừng đã trở lại, " + client.getFirstName() + "" + client.getLastName()));
+        saving_bal.setText(Float.toString(savingAccount.getBalance()));
+        String lastFourCharsSV = savingAccount.getAccountNumber()
+                .substring(savingAccount.getAccountNumber().length() - 4);
+        String lastFourCharsCK = checkingAccount.getAccountNumber()
+                .substring(checkingAccount.getAccountNumber().length() - 4);
+        saving_acc_num.setText(lastFourCharsSV);
+        checking_bal.setText(Float.toString(checkingAccount.getBalance()));
+        checking_acc_num.setText(lastFourCharsCK);
     }
 
 }

@@ -94,7 +94,7 @@ public class Clients {
                 case "lastName":
                     lastName = value;
                     break;
-                case "payeeAdress":
+                case "payeeAddress":
                     payeeAdress = value;
                     break;
                 case "passWord":
