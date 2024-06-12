@@ -40,9 +40,10 @@ public class LoginController implements Initializable {
         Stage stage = (Stage) error_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
         if (selectedType == AccountType.CLIENT) {
+
             Clients client = clientRepo.Authentic(payee_address_fld.getText(), password_fld.getText());
             if (client != null) {
-                GlobalData.getInstance().setClient(client);
+                // GlobalData.getInstance().setClient(client);
                 Model.getInstance().getViewFactory().showClientWindow();
             } else {
                 error_lbl.setText("Sai tài khoản hoặc mật khẩu");

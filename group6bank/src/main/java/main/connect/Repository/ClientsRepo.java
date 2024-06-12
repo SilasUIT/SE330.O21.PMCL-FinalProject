@@ -1,15 +1,17 @@
 package main.connect.Repository;
 
-import main.connect.Models.Clients;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import main.connect.Models.Clients;
+
 public class ClientsRepo {
     public Clients Authentic(String payee, String passWord) {
         try {
+
             // URL của API
             String apiUrl = "http://localhost:8080/getUserWithPayeeAndPassword?payeeaddress=" + payee + "&password="
                     + passWord;
