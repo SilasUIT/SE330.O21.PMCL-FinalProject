@@ -29,16 +29,30 @@ public class LoginController implements Initializable {
         login_btn.setOnAction(e->onlogin() );
     }
 
-    public void onlogin()
-    {
+    public void onlogin() {
         AccountType selectedType = AccountType.fromString(acc_selector.getValue());
-        Stage stage=(Stage)error_lbl.getScene().getWindow();
-        Model.getInstance().getViewFactory().closeStage(stage);
-        if(selectedType == AccountType.CLIENT)
-        {
-            Model.getInstance().getViewFactory().showClientWindow();
+        Stage stage = (Stage) error_lbl.getScene().getWindow();
+        boolean isAuthenticated = false;
+    
+        if (selectedType == AccountType.CLIENT) {
+            // Đánh giá thông tin đăng nhập của khách hàng
+            isAuthenticated = Model.getInstance().evaluateClientCred(payee_address_fld.getText(), password_fld.getText());
         } else {
             Model.getInstance().getViewFactory().showAdminWindow();
+            isAuthenticated = true; // Giả sử xác thực thành công cho admin để mở cửa sổ admin
+        }
+    
+        if (isAuthenticated) {
+            // Đóng cửa sổ đăng nhập hiện tại
+            Model.getInstance().getViewFactory().closeStage(stage);
+            // Hiển thị cửa sổ mới tùy thuộc vào loại tài khoản
+            if (selectedType == AccountType.CLIENT) {
+                Model.getInstance().getViewFactory().showClientWindow(); // Thay `showClientWindow` bằng phương thức thực tế để hiển thị cửa sổ của khách hàng
+            }
+            // Không cần else vì trường hợp admin đã được xử lý ở trên
+        } else {
+            // Hiển thị thông báo lỗi nếu xác thực thất bại
+            error_lbl.setText("Authentication failed. Please try again.");
         }
     }
 }
