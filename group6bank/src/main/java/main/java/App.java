@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.java.Models.Model;
+import main.java.Models.DatabaseDriver;
 
 import java.io.IOException;
 
@@ -35,7 +36,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        DatabaseDriver databaseDriver = new DatabaseDriver();
         launch();
     }
 }

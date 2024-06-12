@@ -11,7 +11,7 @@ public class DatabaseDriver {
     public DatabaseDriver() {
         try {
             // Thay YOUR_CONNECTION_STRING bằng chuỗi kết nối MongoDB Cloud của bạn
-            String connectionString = "mongodb+srv://admin:notisadmin@cluster0.k03oif2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+            String connectionString = "mongodb+srv://admin:notisadmin@cluster0.k03oif2.mongodb.net/";
             mongoClient = MongoClients.create(connectionString);
             // Thay YOUR_DATABASE_NAME bằng tên database bạn muốn kết nối
             database = mongoClient.getDatabase("group6bank");
