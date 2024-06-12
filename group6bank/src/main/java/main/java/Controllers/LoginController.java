@@ -35,24 +35,19 @@ public class LoginController implements Initializable {
         boolean isAuthenticated = false;
     
         if (selectedType == AccountType.CLIENT) {
-            // Đánh giá thông tin đăng nhập của khách hàng
             isAuthenticated = Model.getInstance().evaluateClientCred(payee_address_fld.getText(), password_fld.getText());
         } else {
             Model.getInstance().getViewFactory().showAdminWindow();
-            isAuthenticated = true; // Giả sử xác thực thành công cho admin để mở cửa sổ admin
+            isAuthenticated = true; 
         }
     
         if (isAuthenticated) {
-            // Đóng cửa sổ đăng nhập hiện tại
             Model.getInstance().getViewFactory().closeStage(stage);
-            // Hiển thị cửa sổ mới tùy thuộc vào loại tài khoản
             if (selectedType == AccountType.CLIENT) {
-                Model.getInstance().getViewFactory().showClientWindow(); // Thay `showClientWindow` bằng phương thức thực tế để hiển thị cửa sổ của khách hàng
+                Model.getInstance().getViewFactory().showClientWindow();
             }
-            // Không cần else vì trường hợp admin đã được xử lý ở trên
         } else {
-            // Hiển thị thông báo lỗi nếu xác thực thất bại
-            error_lbl.setText("Authentication failed. Please try again.");
+            error_lbl.setText("Xác thực tài khoản thất bại. Vui lòng thử lại.");
         }
     }
 }
