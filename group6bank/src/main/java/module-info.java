@@ -7,9 +7,12 @@ module main.java {
     requires org.mongodb.driver.core;
     requires org.mongodb.driver.sync.client;
     requires io.github.cdimascio.dotenv.java;
+    requires javafx.base;
 
 
     opens main.java to javafx.fxml;
+    opens main.java.Controllers to javafx.fxml;
+    
     exports main.java;
     exports main.java.Controllers;
     exports main.java.Controllers.Admin;

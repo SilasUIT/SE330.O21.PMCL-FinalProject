@@ -19,7 +19,7 @@ public class DatabaseDriver {
         try {
             // Thay YOUR_CONNECTION_STRING bằng chuỗi kết nối MongoDB Cloud của bạn
             Dotenv dotenv = Dotenv.configure()
-                    .directory("group6bank\\.env")
+                    .directory("./")
                     .load();
 
             mongoClient = MongoClients.create(dotenv.get("MONGO_URL"));

@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
                 Model.getInstance().getViewFactory().showClientWindow();
             }
         } else {
-            error_lbl.setText("Xác thực tài khoản thất bại. Vui lòng thử lại.");
+            error_lbl.setText("Xác thực tài khoản thất bại, vui lòng thử lại.");
         }
     }
 }

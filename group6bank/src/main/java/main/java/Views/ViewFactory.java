@@ -6,9 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import main.java.Controllers.LogoutConfirmationController;
 import main.java.Controllers.Admin.AdminController;
 import main.java.Controllers.Client.ClientController;
 
@@ -119,8 +122,12 @@ public class ViewFactory {
     
 
     public void showLoginPage() {
-        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Login.fxml"));
+        createStage(loader);
+    }
+
+    public void showLogoutConfirmation() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/LogoutConfirmation.fxml"));
         createStage(loader);
     }
 

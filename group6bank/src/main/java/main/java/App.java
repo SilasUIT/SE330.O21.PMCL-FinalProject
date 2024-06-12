@@ -19,7 +19,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Model.getInstance().getViewFactory().showLoginPage();
+        Model.getInstance().getViewFactory().showClientWindow();;
     }
 
     static void setRoot(String fxml) throws IOException {
