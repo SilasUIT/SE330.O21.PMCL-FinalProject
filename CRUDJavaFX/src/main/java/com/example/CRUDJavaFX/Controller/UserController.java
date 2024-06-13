@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -115,38 +117,55 @@ public class UserController {
         SavingAccountController savingAccountController = new SavingAccountController(savingAccountRepo);
         if (checkingAccountController.CheckBalance(id, amount) != 0 || savingAccountController.CheckBalance(id, amount) != 0) {
             if (checkingAccountController.CheckBalance(id, amount) == -1 || savingAccountController.CheckBalance(id, amount) == -1) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{ \"số dư không đủ \"}");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("số dư không đủ}");
             }
-            if (checkingAccountController.ChangeBalance(id, amount) && savingAccountController.ChangeBalance(id, amount))
-                return ResponseEntity.status(HttpStatus.OK).body("{ \"Thành công\"}");
-            return ResponseEntity.status(HttpStatus.OK).body("{ \"Có lỗi gì đó\"}");
+            if (checkingAccountController.ChangeBalance(id, -amount) && savingAccountController.ChangeBalance(id, amount))
+                return ResponseEntity.status(HttpStatus.OK).body("Thành công");
+            return ResponseEntity.status(HttpStatus.OK).body("Có lỗi gì đó");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{ \"không tìm thấy tài khoản\"}");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("không tìm thấy tài khoản");
     }
 
 
     public String Transaction(String idSender, String idReceiver, float amount) {
-        Optional<User> user = userRepo.findById(idReceiver);
+        Optional<User> userSender = userRepo.findUserByPayeeAddress(idSender);
+        Optional<User> userReceiver = userRepo.findUserByPayeeAddress(idReceiver);
         CheckingAccountController checkingAccountController = new CheckingAccountController(checkingAccountRepo);
         SavingAccountController savingAccountController = new SavingAccountController(savingAccountRepo);
-        if (user.isPresent()) {
-            if (amount <= 0)
-                return "{ \"Số tiền không hợp lệ\"}";
-            else {
-                if (checkingAccountController.ChangeBalance(idSender, -amount) && checkingAccountController.ChangeBalance(idReceiver, amount))
-                {
-                    return "{ \"Chuyển tiền thành công\"}";
-                }
 
-                return "{ \"Chuyển tiền thất bại\"}";
+            if (amount <= 0)
+                return "Số tiền không hợp lệ";
+            else {
+                if (checkingAccountController.ChangeBalance(userSender.get().getId(), -amount) && checkingAccountController.ChangeBalance(userReceiver.get().getId(), amount))
+                {
+                    return "Chuyển tiền thành công";
+                }
+                return "Chuyển tiền thất bại";
             }
-        }
-        return "{ \"Người nhận không tồn tại\"}";
+
     }
 
 
     @PostMapping("/addUserwithMoney")
-    public ResponseEntity<User> addUserWithMoney(@RequestBody User user,@RequestParam float moneyCh,@RequestParam float moneySv) {
+    public ResponseEntity<?> addUserWithMoney(@RequestBody User user,@RequestParam float moneyCh,@RequestParam float moneySv) {
+        Optional<User> use1=userRepo.findUserByPayeeAddress(user.getPayeeAddress());
+        if(use1.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Địa chỉ ví này đã tồn tại");
+        }
+        if(user.getPassWord()==null || !isValidPassword(user.getPassWord()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mật khẩu có ít nhất 6 kí tự, 1 số và 1 chữ hoa");
+        }
+        if(moneyCh<0 || moneySv<0)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Số tiền phải lớn hơn =0");
+        }
+        LocalDate today = LocalDate.now();
+
+        // Định dạng ngày theo định dạng "dd/MM/yyyy"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = today.format(formatter);
+        user.setDateOfBirth(formattedDate);
         User userObj = userRepo.save(user);
         SavingAccountController savingAccountController =new SavingAccountController(savingAccountRepo);
         CheckingAccountController checkingAccountController =new CheckingAccountController(checkingAccountRepo);
@@ -159,5 +178,23 @@ public class UserController {
     {
         List<User> users=userRepo.findUserByPayeeAddressRegex(payeeAddress);
         return new  ResponseEntity<>(users,HttpStatus.OK);
+    }
+
+
+    public User getUserByPayeeAddress(String payeeAddress)
+    {
+        Optional<User> user=userRepo.findUserByPayeeAddress(payeeAddress);
+        return user.orElse(null);
+    }
+
+
+    private static final String PASSWORD_PATTERN =
+            "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{6,}$";
+
+    public static boolean isValidPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+        return password.matches(PASSWORD_PATTERN);
     }
 }
