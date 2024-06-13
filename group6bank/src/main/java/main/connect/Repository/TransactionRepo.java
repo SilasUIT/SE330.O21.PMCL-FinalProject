@@ -78,4 +78,59 @@ public class TransactionRepo {
                 + "\"message\":\"" + message + "\""
                 + "}";
     }
+
+    public String getLastIncome(String payeeAddress) {
+        String apiUrl = "http://localhost:8080/transaction/latest_income?id=" + payeeAddress;
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            // Lấy dữ liệu từ API
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+            // Phân tích dữ liệu JSON và tạo đối tượng Clients
+            String jsonResponse = response.toString();
+            conn.disconnect();
+            return jsonResponse;
+            // Đóng kết nối
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "0";
+        }
+    }
+
+    public String getLastExpense(String payeeAddress) {
+        String apiUrl = "http://localhost:8080/transaction/latest_expense?id=" + payeeAddress;
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            // Lấy dữ liệu từ API
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+            // Phân tích dữ liệu JSON và tạo đối tượng Clients
+            String jsonResponse = response.toString();
+            conn.disconnect();
+            System.out.println(jsonResponse);
+            if (jsonResponse.equals(""))
+                return "0";
+            return jsonResponse;
+            // Đóng kết nối
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "0";
+        }
+    }
 }

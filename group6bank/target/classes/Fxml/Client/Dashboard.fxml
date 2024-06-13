@@ -59,7 +59,7 @@
                   <Label fx:id="income_amount" styleClass="income_amount" text="+ 300,000 VND" />
                   <Line endX="160.0" />
                   <Text layoutX="21.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Đầu ra" />
-                  <Label fx:id="income_amount1" layoutX="21.0" layoutY="64.0" styleClass="expense_amount" text="- 700,000 VND" />
+                  <Label fx:id="expense_amount" layoutX="21.0" layoutY="64.0" styleClass="expense_amount" text="- 700,000 VND" />
                </children>
             </VBox>
          </children>

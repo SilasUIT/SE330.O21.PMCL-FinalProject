@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class CheckingAccountRepo {
     public void GetCheckingAccount(String idOwner) {
@@ -22,7 +23,8 @@ public class CheckingAccountRepo {
             conn.setRequestMethod("GET");
 
             // Lấy dữ liệu từ API
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {

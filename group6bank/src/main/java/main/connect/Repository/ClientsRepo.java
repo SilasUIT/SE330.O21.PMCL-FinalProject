@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -36,7 +37,8 @@ public class ClientsRepo {
             int responseCode = conn.getResponseCode();
             if (responseCode == 200) { // 200 OK
                 // Lấy dữ liệu từ API
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 StringBuilder response = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -87,7 +89,8 @@ public class ClientsRepo {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             // Lấy dữ liệu từ API
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -132,7 +135,8 @@ public class ClientsRepo {
             int responseCode = conn.getResponseCode();
             if (responseCode == 200) { // 200 OK
                 // Lấy dữ liệu từ API
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 StringBuilder response = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -192,7 +196,7 @@ public class ClientsRepo {
                 if (responseCode == 200) {
                     return "Thêm Thành công";
                 }
-                return "Thêm thất bại";
+                return responseBody;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -216,7 +220,8 @@ public class ClientsRepo {
             }
 
             // Lấy dữ liệu từ API
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -258,7 +263,8 @@ public class ClientsRepo {
             }
 
             // Lấy dữ liệu từ API
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -300,7 +306,8 @@ public class ClientsRepo {
             int responseCode = conn.getResponseCode();
             if (responseCode == 200) { // 200 OK
                 // Lấy dữ liệu từ API
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 StringBuilder response = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.connect.Models.CheckingAccount;
 import main.connect.Models.Clients;
@@ -18,6 +19,7 @@ import main.connect.Models.SavingAccount;
 import main.connect.Repository.ClientsRepo;
 import main.connect.Repository.TransactionRepo;
 import main.java.GlobalData;
+import main.java.GlobalDataAdmin;
 
 public class DashboardController implements Initializable {
 
@@ -69,7 +71,7 @@ public class DashboardController implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            String response = transactionRepo.addTransation(GlobalData.getInstance().getClient().getId(),
+            String response = transactionRepo.addTransation(GlobalData.getInstance().getClient().getPayeeAdress(),
                     payee_fld.getText(), amount, "29/01/2003", message_fld.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(response);
@@ -85,8 +87,8 @@ public class DashboardController implements Initializable {
     }
 
     void fetchData() {
-        System.out.println("checking:" + GlobalData.getInstance().getCheckingAccount().getBalance());
         user_name.setText(("Chào mừng đã trở lại, " + client.getFirstName() + "" + client.getLastName()));
+
         saving_bal.setText(Float.toString(savingAccount.getBalance()));
 
         String lastFourCharsSV = savingAccount.getAccountNumber()
@@ -96,7 +98,17 @@ public class DashboardController implements Initializable {
         saving_acc_num.setText(lastFourCharsSV);
         checking_bal.setText(Float.toString(checkingAccount.getBalance()));
         checking_acc_num.setText(lastFourCharsCK);
-
+        if (GlobalData.getInstance().getTransaction() == null) {
+            income_amount.setText("0");
+        } else {
+            income_amount.setText(transactionRepo.getLastIncome(GlobalData.getInstance().getClient().getPayeeAdress()));
+        }
+        if (GlobalData.getInstance().getTransaction() == null) {
+            expense_amount.setText("0");
+        } else {
+            expense_amount
+                    .setText(transactionRepo.getLastExpense(GlobalData.getInstance().getClient().getPayeeAdress()));
+        }
     }
 
 }

@@ -43,6 +43,10 @@ public class AccountsController implements Initializable {
         sv_acc_num.setText(savingAccount.getAccountNumber());
         ch_acc_bal.setText(Float.toString(checkingAccount.getBalance()));
         ch_acc_num.setText(checkingAccount.getAccountNumber());
+        ch_acc_date.setText(GlobalData.getInstance().getClient().getDateOfBirth());
+        sv_acc_date.setText(GlobalData.getInstance().getClient().getDateOfBirth());
+        transaction_limit.setText(String.valueOf(checkingAccount.getTransactionAmount()));
+        withdrawal_limit.setText(String.valueOf(savingAccount.getWithDrawLimit()));
         trans_to_sv_btn.setOnAction(e -> SavingMoney());
         trans_to_cv_btn.setOnAction(e -> getSavingMoney());
     }
