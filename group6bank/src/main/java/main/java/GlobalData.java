@@ -3,6 +3,8 @@ package main.java;
 import main.connect.Models.CheckingAccount;
 import main.connect.Models.Clients;
 import main.connect.Models.SavingAccount;
+import main.connect.Models.Transaction;
+import java.util.List;
 
 public class GlobalData {
 
@@ -10,6 +12,7 @@ public class GlobalData {
     private Clients client;
     private SavingAccount savingAccount;
     private CheckingAccount checkingAccount;
+    private List<Transaction> transaction;
 
     private GlobalData() {
         // private constructor to prevent instantiation

@@ -1,6 +1,8 @@
 package com.example.CRUDJavaFX.Controller;
 
 
+import com.example.CRUDJavaFX.Repo.CheckingAccountRepo;
+import com.example.CRUDJavaFX.Repo.SavingAccountRepo;
 import com.example.CRUDJavaFX.Repo.UserRepo;
 import com.example.CRUDJavaFX.models.User;
 
@@ -17,16 +19,20 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepo userRepo;
+    private final CheckingAccountRepo checkingAccountRepo;
+    private final SavingAccountRepo savingAccountRepo;
 
-    public UserController(UserRepo userRepo) {
+    public UserController(UserRepo userRepo, CheckingAccountRepo checkingAccountRepo, SavingAccountController savingAccountController, SavingAccountRepo savingAccountRepo) {
         this.userRepo = userRepo;
+        this.checkingAccountRepo = checkingAccountRepo;
+
+        this.savingAccountRepo = savingAccountRepo;
     }
 
 
     @GetMapping("/getAllUser")
     public ResponseEntity<List<User>> getAllUser() {
         try {
-
             List<User> users = new ArrayList<>(userRepo.findAll());
             if (!users.isEmpty()) {
                 return new ResponseEntity<>(users, HttpStatus.OK);
@@ -92,5 +98,37 @@ public class UserController {
         }
     }
 
+    @GetMapping("/saving")
+    public ResponseEntity<String> SavingMoney(
+            @RequestParam String id,
+            @RequestParam float amount) {
+        CheckingAccountController checkingAccountController = new CheckingAccountController(checkingAccountRepo);
+        SavingAccountController savingAccountController = new SavingAccountController(savingAccountRepo);
+        if (checkingAccountController.CheckBalance(id, amount) != 0 || savingAccountController.CheckBalance(id, amount) != 0) {
+            if (checkingAccountController.CheckBalance(id, amount) == -1 || savingAccountController.CheckBalance(id, amount) == -1) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{ \"số dư không đủ \"}");
+            }
+            if (checkingAccountController.ChangeBalance(id, amount) && savingAccountController.ChangeBalance(id, amount))
+                return ResponseEntity.status(HttpStatus.OK).body("{ \"Thành công\"}");
+            return ResponseEntity.status(HttpStatus.OK).body("{ \"Có lỗi gì đó\"}");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{ \"không tìm thấy tài khoản\"}");
+    }
 
+
+    public String Transaction(String idSender, String idReceiver, float amount) {
+        Optional<User> user = userRepo.findById(idReceiver);
+        CheckingAccountController checkingAccountController = new CheckingAccountController(checkingAccountRepo);
+        SavingAccountController savingAccountController = new SavingAccountController(savingAccountRepo);
+        if (user.isPresent()) {
+            if (amount <= 0)
+                return "{ \"Số tiền không hợp lệ\"}";
+            else {
+                if (checkingAccountController.ChangeBalance(idSender, -amount) && checkingAccountController.ChangeBalance(idReceiver, amount))
+                    return "{ \"Chuyển tiền thành công\"}";
+                return "{ \"Chuyển tiền thất bại\"}";
+            }
+        }
+        return "{ \"Người nhận không tồn tại\"}";
+    }
 }

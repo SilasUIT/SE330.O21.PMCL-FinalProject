@@ -4,11 +4,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.connect.Models.CheckingAccount;
 import main.connect.Models.SavingAccount;
+import main.connect.Repository.ClientsRepo;
 import main.java.GlobalData;
 
 public class AccountsController implements Initializable {
@@ -27,6 +29,7 @@ public class AccountsController implements Initializable {
 
     SavingAccount savingAccount;
     CheckingAccount checkingAccount;
+    ClientsRepo clientsRepo = new ClientsRepo();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -40,5 +43,49 @@ public class AccountsController implements Initializable {
         sv_acc_num.setText(savingAccount.getAccountNumber());
         ch_acc_bal.setText(Float.toString(savingAccount.getBalance()));
         ch_acc_num.setText(checkingAccount.getAccountNumber());
+        trans_to_sv_btn.setOnAction(e -> SavingMoney());
+        trans_to_cv_btn.setOnAction(e -> getSavingMoney());
+    }
+
+    void SavingMoney() {
+        try {
+
+            float amount = Float.valueOf(amount_to_sv.getText());
+            if (amount < 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Số tiền không được <0");
+                alert.showAndWait();
+            } else {
+                String response = clientsRepo.eventSavingMoney(amount);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(response);
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Số tiền phải là số nguyên");
+            alert.showAndWait();
+        }
+    }
+
+    void getSavingMoney() {
+        try {
+
+            float amount = Float.valueOf(amount_to_ch.getText());
+            if (amount < 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Số tiền không được <0");
+                alert.showAndWait();
+            } else {
+                String response = clientsRepo.eventSavingMoney(-amount);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(response);
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Số tiền phải là số nguyên");
+            alert.showAndWait();
+        }
     }
 }
