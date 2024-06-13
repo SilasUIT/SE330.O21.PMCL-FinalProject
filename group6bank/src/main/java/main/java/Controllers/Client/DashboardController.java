@@ -3,6 +3,7 @@ package main.java.Controllers.Client;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.text.Text;
 import main.connect.Models.CheckingAccount;
 import main.connect.Models.Clients;
 import main.connect.Models.SavingAccount;
+import main.connect.Repository.ClientsRepo;
 import main.connect.Repository.TransactionRepo;
 import main.java.GlobalData;
 
@@ -36,6 +38,7 @@ public class DashboardController implements Initializable {
     private SavingAccount savingAccount;
     private CheckingAccount checkingAccount;
     TransactionRepo transactionRepo = new TransactionRepo();
+    ClientsRepo clientsRepo = new ClientsRepo();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,17 +50,7 @@ public class DashboardController implements Initializable {
 
     void LoadForm() {
 
-        user_name.setText(("Chào mừng đã trở lại, " + client.getFirstName() + "" + client.getLastName()));
-        saving_bal.setText(Float.toString(savingAccount.getBalance()));
-        String lastFourCharsSV = savingAccount.getAccountNumber()
-                .substring(savingAccount.getAccountNumber().length() - 4);
-        String lastFourCharsCK = checkingAccount.getAccountNumber()
-                .substring(checkingAccount.getAccountNumber().length() - 4);
-        saving_acc_num.setText(lastFourCharsSV);
-        checking_bal.setText(Float.toString(checkingAccount.getBalance()));
-        checking_acc_num.setText(lastFourCharsCK);
-
-        transactionRepo.GetListTransaction(client.getId());
+        fetchData();
         send_money_btn.setOnAction((e) -> send_money_btn_event_click());
     }
 
@@ -81,11 +74,29 @@ public class DashboardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(response);
             alert.showAndWait();
+            clientsRepo.getEverything(GlobalData.getInstance().getClient().getId());
+            initialize(null, null);
+
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Số tiền phải là số nguyên");
             alert.showAndWait();
         }
+    }
+
+    void fetchData() {
+        System.out.println("checking:" + GlobalData.getInstance().getCheckingAccount().getBalance());
+        user_name.setText(("Chào mừng đã trở lại, " + client.getFirstName() + "" + client.getLastName()));
+        saving_bal.setText(Float.toString(savingAccount.getBalance()));
+
+        String lastFourCharsSV = savingAccount.getAccountNumber()
+                .substring(savingAccount.getAccountNumber().length() - 4);
+        String lastFourCharsCK = checkingAccount.getAccountNumber()
+                .substring(checkingAccount.getAccountNumber().length() - 4);
+        saving_acc_num.setText(lastFourCharsSV);
+        checking_bal.setText(Float.toString(checkingAccount.getBalance()));
+        checking_acc_num.setText(lastFourCharsCK);
+
     }
 
 }

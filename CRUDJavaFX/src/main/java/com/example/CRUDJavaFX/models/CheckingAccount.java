@@ -14,6 +14,14 @@ public class CheckingAccount {
     float transactionAmount;
     float balance;
 
+    public CheckingAccount(String idOwner, String accountNumber, float transactionAmount, float balance) {
+        this.idOwner = idOwner;
+        this.accountNumber = accountNumber;
+        this.transactionAmount = transactionAmount;
+        this.balance = balance;
+    }
+    public CheckingAccount() {
+    }
     public CheckingAccount(String id, String idOwner, String accountNumber, float transactionAmount, float balance) {
         this.id = id;
         this.idOwner = idOwner;

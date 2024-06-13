@@ -14,6 +14,17 @@ public class SavingAccount {
     float withDrawLimit;
     float balance;
 
+
+    public SavingAccount(String idOwner, String accountNumber, float withDrawLimit, float balance) {
+        this.idOwner = idOwner;
+        this.accountNumber = accountNumber;
+        this.withDrawLimit = withDrawLimit;
+        this.balance = balance;
+    }
+
+    public SavingAccount() {
+    }
+
     public SavingAccount(String id, String idOwner, String accountNumber, float withDrawLimit, float balance) {
         this.id = id;
         this.idOwner = idOwner;

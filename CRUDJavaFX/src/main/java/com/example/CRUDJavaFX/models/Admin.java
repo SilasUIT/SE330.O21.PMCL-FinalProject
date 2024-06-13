@@ -9,13 +9,13 @@ public class Admin {
     String id;
 
     String userName;
-    String password;
+    String passWord;
 
 
-    public Admin(String id, String userName, String password) {
+    public Admin(String id, String userName, String passWord) {
         this.id = id;
         this.userName = userName;
-        this.password = password;
+        this.passWord = passWord;
     }
 
     public String getId() {
@@ -34,11 +34,11 @@ public class Admin {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 }

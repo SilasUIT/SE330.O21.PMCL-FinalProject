@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import main.java.GlobalData;
 import main.java.Models.Model;
 import main.java.Views.ClientMenuOptions;
 
@@ -19,14 +21,15 @@ public class ClientMenuController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-    
+
         addListeners();
     }
 
     private void addListeners() {
         dashboard_btn.setOnAction(e -> onDashboard());
         transaction_btn.setOnAction(e -> onTransactions());
-        accounts_btn.setOnAction(e->onAccounts());
+        accounts_btn.setOnAction(e -> onAccounts());
+        logout_btn.setOnAction(e -> LogOut());
     }
 
     private void onDashboard() {
@@ -41,5 +44,12 @@ public class ClientMenuController implements Initializable {
         Model.getInstance().getViewFactory().getSelectedMenuItems().set(ClientMenuOptions.ACCOUNTS);
     }
 
-    
+    private void LogOut() {
+        Stage stage = (Stage) name_bank.getScene().getWindow();
+
+        GlobalData.getInstance().clearAllData();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        Model.getInstance().getViewFactory().showLoginPage();
+    }
+
 }

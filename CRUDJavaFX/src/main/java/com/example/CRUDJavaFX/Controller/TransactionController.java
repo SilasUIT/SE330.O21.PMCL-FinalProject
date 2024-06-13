@@ -27,6 +27,7 @@ public class TransactionController {
 
         String response=userController.Transaction(transaction.getAddressSender(),transaction.getAddressReceiver(), transaction.getAmount());
         if(response=="{ \"Chuyển tiền thành công\"}") {
+            transactionRepo.save(transaction);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -36,10 +37,8 @@ public class TransactionController {
     public ResponseEntity<List<Transaction>> getTransaction(@PathVariable String id) {
         List<Transaction> transactionRecei = transactionRepo.findAllByAddressReceiver(id);
         List<Transaction> transactionSen = transactionRepo.findAllByAddressSender(id);
-
         List<Transaction> transactionObj = new ArrayList<>(transactionRecei);
         transactionObj.addAll(transactionSen);
-
         return ResponseEntity.ok(transactionObj);
     }
 

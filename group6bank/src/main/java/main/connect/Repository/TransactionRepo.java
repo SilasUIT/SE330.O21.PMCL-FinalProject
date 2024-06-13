@@ -20,15 +20,12 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 public class TransactionRepo {
     public void GetListTransaction(String id) {
         try {
-
             // URL của API
             String apiUrl = "http://localhost:8080/transaction/" + id;
-
             // Mở kết nối HTTP
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-
             // Lấy dữ liệu từ API
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder response = new StringBuilder();
@@ -37,24 +34,16 @@ public class TransactionRepo {
                 response.append(line);
             }
             reader.close();
-
             // Phân tích dữ liệu JSON và tạo đối tượng Clients
             String jsonResponse = response.toString();
-
             List<Transaction> transactions = Transaction.parseJsonToTransactionList(jsonResponse);
-
             // Xử lý danh sách transactions (ví dụ: in ra hoặc lưu vào đâu đó)
-            for (Transaction transaction : transactions) {
-
-            }
-
+            GlobalData.getInstance().setTransaction(transactions);
             // Đóng kết nối
             conn.disconnect();
-
         } catch (IOException e) {
             // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
             e.printStackTrace();
-
         }
     }
 

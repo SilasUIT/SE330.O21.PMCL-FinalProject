@@ -3,6 +3,7 @@ package com.example.CRUDJavaFX.Controller;
 
 import com.example.CRUDJavaFX.Repo.CheckingAccountRepo;
 import com.example.CRUDJavaFX.Repo.SavingAccountRepo;
+import com.example.CRUDJavaFX.Repo.TransactionRepo;
 import com.example.CRUDJavaFX.Repo.UserRepo;
 import com.example.CRUDJavaFX.models.User;
 
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.security.SecureRandom;
+import java.util.Random;
 
 
 @RestController
@@ -21,12 +24,14 @@ public class UserController {
     private final UserRepo userRepo;
     private final CheckingAccountRepo checkingAccountRepo;
     private final SavingAccountRepo savingAccountRepo;
+    private final TransactionRepo transactionRepo;
 
-    public UserController(UserRepo userRepo, CheckingAccountRepo checkingAccountRepo, SavingAccountController savingAccountController, SavingAccountRepo savingAccountRepo) {
+    public UserController(UserRepo userRepo, CheckingAccountRepo checkingAccountRepo, SavingAccountController savingAccountController, SavingAccountRepo savingAccountRepo, TransactionRepo transactionRepo) {
         this.userRepo = userRepo;
         this.checkingAccountRepo = checkingAccountRepo;
 
         this.savingAccountRepo = savingAccountRepo;
+        this.transactionRepo = transactionRepo;
     }
 
 
@@ -56,6 +61,10 @@ public class UserController {
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User userObj = userRepo.save(user);
+        SavingAccountController savingAccountController =new SavingAccountController(savingAccountRepo);
+        CheckingAccountController checkingAccountController =new CheckingAccountController(checkingAccountRepo);
+        savingAccountController.addSavingAccount(user.getId(),0);
+        checkingAccountController.addCheckingAccount(user.getId(),0);
         return new ResponseEntity<>(userObj, HttpStatus.OK);
     }
 
@@ -125,10 +134,30 @@ public class UserController {
                 return "{ \"Số tiền không hợp lệ\"}";
             else {
                 if (checkingAccountController.ChangeBalance(idSender, -amount) && checkingAccountController.ChangeBalance(idReceiver, amount))
+                {
                     return "{ \"Chuyển tiền thành công\"}";
+                }
+
                 return "{ \"Chuyển tiền thất bại\"}";
             }
         }
         return "{ \"Người nhận không tồn tại\"}";
+    }
+
+
+    @PostMapping("/addUserwithMoney")
+    public ResponseEntity<User> addUserWithMoney(@RequestBody User user,@RequestParam float moneyCh,@RequestParam float moneySv) {
+        User userObj = userRepo.save(user);
+        SavingAccountController savingAccountController =new SavingAccountController(savingAccountRepo);
+        CheckingAccountController checkingAccountController =new CheckingAccountController(checkingAccountRepo);
+        savingAccountController.addSavingAccount(user.getId(),moneySv);
+        checkingAccountController.addCheckingAccount(user.getId(),moneyCh);
+        return new ResponseEntity<>(userObj, HttpStatus.OK);
+    }
+    @GetMapping("/User")
+    public ResponseEntity<List<User>> SearchUserWithPayee(@RequestParam String payeeAddress)
+    {
+        List<User> users=userRepo.findUserByPayeeAddressRegex(payeeAddress);
+        return new  ResponseEntity<>(users,HttpStatus.OK);
     }
 }

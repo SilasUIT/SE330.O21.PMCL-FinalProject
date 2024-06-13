@@ -1,5 +1,8 @@
 package main.connect.Models;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Clients {
     private String id;
     private String firstName;
@@ -111,6 +114,56 @@ public class Clients {
 
         // Tạo đối tượng Clients từ dữ liệu phân tích
         return new Clients(id, firstName, lastName, payeeAdress, passWord, dateOfBirth);
+    }
+
+    public static List<Clients> parseJsonToClientList(String jsonResponse) {
+        List<Clients> clientsList = new ArrayList<>();
+
+        jsonResponse = jsonResponse.replace("[", "").replace("]", ""); // Xóa các ký tự không cần thiết
+        String[] clientStrings = jsonResponse.split("\\},\\{"); // Tách các đối tượng JSON riêng lẻ
+
+        for (String clientString : clientStrings) {
+            clientString = clientString.replace("{", "").replace("}", "").replace("\"", "");
+            String[] fields = clientString.split(",");
+
+            String id = "";
+            String firstName = "";
+            String lastName = "";
+            String payeeAdress = "";
+            String passWord = "";
+            String dateOfBirth = "";
+
+            for (String field : fields) {
+                String[] keyValue = field.split(":");
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+                switch (key) {
+                    case "id":
+                        id = value;
+                        break;
+                    case "firstName":
+                        firstName = value;
+                        break;
+                    case "lastName":
+                        lastName = value;
+                        break;
+                    case "payeeAddress":
+                        payeeAdress = value;
+                        break;
+                    case "passWord":
+                        passWord = value;
+                        break;
+                    case "dateOfBirth":
+                        dateOfBirth = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            clientsList.add(new Clients(id, firstName, lastName, payeeAdress, passWord, dateOfBirth));
+        }
+
+        return clientsList;
     }
 
 }

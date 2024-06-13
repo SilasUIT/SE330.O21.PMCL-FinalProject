@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import main.connect.Repository.ClientsRepo;
 import main.java.Models.Model;
 
 public class AdminController implements Initializable {

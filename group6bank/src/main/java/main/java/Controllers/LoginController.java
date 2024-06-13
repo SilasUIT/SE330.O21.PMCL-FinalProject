@@ -38,18 +38,26 @@ public class LoginController implements Initializable {
     public void onlogin() {
         AccountType selectedType = AccountType.fromString(acc_selector.getValue());
         Stage stage = (Stage) error_lbl.getScene().getWindow();
-        Model.getInstance().getViewFactory().closeStage(stage);
-        if (selectedType == AccountType.CLIENT) {
 
-            Clients client = clientRepo.Authentic(payee_address_fld.getText(), password_fld.getText());
-            if (client != null) {
-                GlobalData.getInstance().setClient(client);
-                Model.getInstance().getViewFactory().showClientWindow();
+        if (selectedType == AccountType.CLIENT) {
+            try {
+                if (clientRepo.Authentic(payee_address_fld.getText(), password_fld.getText())) {
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showClientWindow();
+                } else {
+                    error_lbl.setText("Sai tài khoản hoặc mật khẩu");
+                }
+            } catch (Exception e) {
+                error_lbl.setText("Đăng nhập thất bại");
+            }
+
+        } else {
+            if (clientRepo.AuthenticWithAdmin(payee_address_fld.getText(), password_fld.getText())) {
+                Model.getInstance().getViewFactory().closeStage(stage);
+                Model.getInstance().getViewFactory().showAdminWindow();
             } else {
                 error_lbl.setText("Sai tài khoản hoặc mật khẩu");
             }
-        } else {
-            Model.getInstance().getViewFactory().showAdminWindow();
         }
     }
 }

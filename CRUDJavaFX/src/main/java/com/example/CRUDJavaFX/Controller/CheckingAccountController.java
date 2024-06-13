@@ -6,11 +6,9 @@ import com.example.CRUDJavaFX.models.SavingAccount;
 import com.example.CRUDJavaFX.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +53,7 @@ public class CheckingAccountController {
             newCheckingAccount.setBalance(newAmount);
             checkingAccountRepo.save(newCheckingAccount);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -71,5 +68,37 @@ public class CheckingAccountController {
             return 1;
         }
         return 0;
+    }
+
+    private static final String DIGITS = "0123456789";
+    private static final SecureRandom random = new SecureRandom();
+
+    public String generateRandomString() {
+        StringBuilder sb = new StringBuilder(12);
+        for (int i = 0; i < 12; i++) {
+            int index = random.nextInt(DIGITS.length());
+            sb.append(DIGITS.charAt(index));
+        }
+        return sb.toString();
+    }
+
+
+    public void addCheckingAccount(String Id, float money) {
+        CheckingAccount checkingAccount = new CheckingAccount(Id, generateRandomString(), 200000, money);
+        checkingAccountRepo.save(checkingAccount);
+    }
+
+    @GetMapping("addBalance")
+    public ResponseEntity<HttpStatus> addBalance(
+            @RequestParam String IdOwner,
+            @RequestParam float amount) {
+        Optional<CheckingAccount> checkingAccount = checkingAccountRepo.findCheckingAccountByIdOwner(IdOwner);
+        if (checkingAccount.isPresent()) {
+            CheckingAccount newCheckingAcount = checkingAccount.get();
+            newCheckingAcount.setBalance(newCheckingAcount.getBalance() + amount);
+            checkingAccountRepo.save(newCheckingAcount);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

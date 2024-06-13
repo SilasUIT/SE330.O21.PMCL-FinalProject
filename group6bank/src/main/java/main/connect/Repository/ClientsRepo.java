@@ -5,12 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import main.connect.Models.Clients;
+import main.connect.Models.Transaction;
 import main.java.GlobalData;
+import main.java.GlobalDataAdmin;
 
 public class ClientsRepo {
-    public Clients Authentic(String payee, String passWord) {
+    public boolean Authentic(String payee, String passWord) {
         try {
 
             // URL của API
@@ -23,43 +33,45 @@ public class ClientsRepo {
             conn.setRequestMethod("GET");
 
             // Lấy dữ liệu từ API
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) { // 200 OK
+                // Lấy dữ liệu từ API
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                // Phân tích dữ liệu JSON và tạo đối tượng Clients
+                String jsonResponse = response.toString();
+                Clients client = Clients.parseJsonToClient(jsonResponse);
+
+                // Đóng kết nối
+                conn.disconnect();
+                getCheckingSavingAndTransaction(client.getId());
+                GlobalData.getInstance().setClient(client);
+                return true;
+            } else {
+
+                conn.disconnect();
+                return false; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
             }
-            reader.close();
-
-            // Phân tích dữ liệu JSON và tạo đối tượng Clients
-            String jsonResponse = response.toString();
-
-            Clients client = Clients.parseJsonToClient(jsonResponse);
-
-            // In thông tin của client
-            System.out.println("Client ID: " + client.getId());
-            System.out.println("First Name: " + client.getFirstName());
-            System.out.println("Last Name: " + client.getLastName());
-            System.out.println("Payee Address: " + client.getPayeeAdress());
-            System.out.println("Password: " + client.getPassWord());
-            System.out.println("Date of Birth: " + client.getDateOfBirth());
-
-            // Đóng kết nối
-            conn.disconnect();
-            getCheckingAndSaving(client.getId());
-            return client;
         } catch (IOException e) {
             // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
             e.printStackTrace();
-            return null; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+            return false; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
         }
     }
 
-    void getCheckingAndSaving(String id) {
+    void getCheckingSavingAndTransaction(String id) {
         SavingAccountRepo savingAccountRepo = new SavingAccountRepo();
         CheckingAccountRepo checkingAccountRepo = new CheckingAccountRepo();
+        TransactionRepo transactionRepo = new TransactionRepo();
         checkingAccountRepo.GetCheckingAccount(id);
         savingAccountRepo.GetSavingAccount(id);
+        transactionRepo.GetListTransaction(id);
     }
 
     public String eventSavingMoney(float amount) {
@@ -86,9 +98,9 @@ public class ClientsRepo {
             String jsonResponse = response.toString();
             // Đóng kết nối
             conn.disconnect();
-            System.out.println(jsonResponse);
+
             if (jsonResponse == "{ \"Thành công\"}") {
-                System.out.println("abc");
+
             }
             return jsonResponse;
         } catch (IOException e) {
@@ -103,5 +115,211 @@ public class ClientsRepo {
                 + "\"id\":\"" + id + "\","
                 + "\"amount\":\"" + amount + "\""
                 + "}";
+    }
+
+    public boolean AuthenticWithAdmin(String userName, String passWord) {
+        try {
+
+            // URL của API
+            String apiUrl = "http://localhost:8080/admin?userName=" + userName + "&passWord=" + passWord;
+
+            // Mở kết nối HTTP
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // Lấy dữ liệu từ API
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) { // 200 OK
+                // Lấy dữ liệu từ API
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                // Phân tích dữ liệu JSON và tạo đối tượng Clients
+                String jsonResponse = response.toString();
+                if (jsonResponse.equals("\"NOT_FOUND\"")) {
+
+                    return false;
+                }
+
+                // Đóng kết nối
+                conn.disconnect();
+                return true;
+            } else {
+
+                conn.disconnect();
+                return false; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+            }
+        } catch (IOException e) {
+            // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
+            e.printStackTrace();
+            return false; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+        }
+    }
+
+    public void getEverything(String id) {
+        GlobalData.getInstance().clearAllDataExeptClient();
+        getCheckingSavingAndTransaction(id);
+    }
+
+    public String toJson(String name, String payeeAdress, String passWord) {
+        return "{"
+                + "\"firstName\":\"" + name + "\","
+                + "\"lastName\":\" \","
+                + "\"payeeAddress\":\"" + payeeAdress + "\","
+                + "\"passWord\":\"" + passWord + "\","
+                + "\"dateOfBirth\":\"29/01/2003 \""
+                + "}";
+    }
+
+    public String addUser(String name, String payeeAdress, String passWord, float moneyCheck, float moneySave) {
+        String apiUrl = "http://localhost:8080/addUserwithMoney?moneyCh=" + moneyCheck + "&moneySv=" + moneySave;
+        String jsonInputString = toJson(name, payeeAdress, passWord);
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpPost httpPost = new HttpPost(apiUrl);
+            httpPost.setHeader("Content-Type", "application/json");
+            httpPost.setEntity(new StringEntity(jsonInputString));
+
+            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+                int responseCode = response.getCode();
+                String responseBody = EntityUtils.toString(response.getEntity());
+
+                if (responseCode == 200) {
+                    return "Thêm Thành công";
+                }
+                return "Thêm thất bại";
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Thất bại";
+        }
+    }
+
+    public void getListClients() {
+        try {
+            // URL của API
+            String apiUrl = "http://localhost:8080/getAllUser";
+            // Mở kết nối HTTP
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            // Kiểm tra mã phản hồi
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+            }
+
+            // Lấy dữ liệu từ API
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            // Phân tích dữ liệu JSON và tạo danh sách đối tượng Clients
+            String jsonResponse = response.toString();
+            List<Clients> clients = Clients.parseJsonToClientList(jsonResponse);
+
+            // In ra danh sách Clients để kiểm tra
+            for (Clients client : clients) {
+                System.out.println(
+                        "ID: " + client.getId() + ", Name: " + client.getFirstName() + " " + client.getLastName());
+            }
+            GlobalDataAdmin.getInstance().setClients(null);
+            GlobalDataAdmin.getInstance().setClients(clients);
+            // Đóng kết nối
+            conn.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getListClientsFound(String payeeAddress) {
+        try {
+            // URL của API
+            String apiUrl = "http://localhost:8080/User?payeeAddress=" + payeeAddress;
+            // Mở kết nối HTTP
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            // Kiểm tra mã phản hồi
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+            }
+
+            // Lấy dữ liệu từ API
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            // Phân tích dữ liệu JSON và tạo danh sách đối tượng Clients
+            String jsonResponse = response.toString();
+            List<Clients> clients = Clients.parseJsonToClientList(jsonResponse);
+
+            // In ra danh sách Clients để kiểm tra
+            for (Clients client : clients) {
+                System.out.println(
+                        "ID: " + client.getId() + ", Name: " + client.getFirstName() + " " + client.getLastName());
+            }
+            GlobalDataAdmin.getInstance().setClientsFound(null);
+            GlobalDataAdmin.getInstance().setClientsFound(clients);
+            // Đóng kết nối
+            conn.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String AddBalane(String IdOwner, float amount) {
+        try {
+
+            // URL của API
+            String apiUrl = "http://localhost:8080/checking_account/addBalance?IdOwner=" + IdOwner + "&amount="
+                    + amount;
+
+            // Mở kết nối HTTP
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // Lấy dữ liệu từ API
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) { // 200 OK
+                // Lấy dữ liệu từ API
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                // Đóng kết nối
+                conn.disconnect();
+                getListClients();
+                return "Thành công";
+            } else {
+                conn.disconnect();
+                return "Thất bại"; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+            }
+        } catch (IOException e) {
+            // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
+            e.printStackTrace();
+            return "Thất bại"; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+        }
     }
 }

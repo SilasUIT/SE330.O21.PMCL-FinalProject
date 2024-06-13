@@ -14,6 +14,14 @@ public class GlobalData {
     private CheckingAccount checkingAccount;
     private List<Transaction> transaction;
 
+    public List<Transaction> getTransaction() {
+        return this.transaction;
+    }
+
+    public void setTransaction(List<Transaction> transaction) {
+        this.transaction = transaction;
+    }
+
     private GlobalData() {
         // private constructor to prevent instantiation
     }
@@ -38,6 +46,7 @@ public class GlobalData {
     }
 
     public void setSavingAccount(SavingAccount savingAccount) {
+
         this.savingAccount = savingAccount;
     }
 
@@ -49,4 +58,20 @@ public class GlobalData {
         this.checkingAccount = checkingAccount;
     }
 
+    public void clearAllData() {
+        this.client = null;
+        this.savingAccount = null;
+        this.checkingAccount = null;
+        if (this.transaction != null) {
+            this.transaction.clear();
+        }
+    }
+
+    public void clearAllDataExeptClient() {
+        this.savingAccount = null;
+        this.checkingAccount = null;
+        if (this.transaction != null) {
+            this.transaction.clear();
+        }
+    }
 }

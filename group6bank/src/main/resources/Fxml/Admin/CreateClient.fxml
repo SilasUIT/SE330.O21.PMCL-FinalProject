@@ -15,8 +15,8 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Họ và tên:" />
             <TextField fx:id="name_fld" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên tài khoản" />
-            <TextField />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa chỉ ví" />
+            <TextField fx:id="pAddress_fld"/>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mật khẩu" />
             <TextField fx:id="password_fld" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa chỉ ví" />

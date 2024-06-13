@@ -41,7 +41,7 @@ public class AccountsController implements Initializable {
     void LoadForm() {
         sv_acc_bal.setText(Float.toString(savingAccount.getBalance()));
         sv_acc_num.setText(savingAccount.getAccountNumber());
-        ch_acc_bal.setText(Float.toString(savingAccount.getBalance()));
+        ch_acc_bal.setText(Float.toString(checkingAccount.getBalance()));
         ch_acc_num.setText(checkingAccount.getAccountNumber());
         trans_to_sv_btn.setOnAction(e -> SavingMoney());
         trans_to_cv_btn.setOnAction(e -> getSavingMoney());
@@ -57,6 +57,8 @@ public class AccountsController implements Initializable {
                 alert.showAndWait();
             } else {
                 String response = clientsRepo.eventSavingMoney(amount);
+                clientsRepo.getEverything(GlobalData.getInstance().getClient().getId());
+                initialize(null, null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(response);
                 alert.showAndWait();
@@ -78,12 +80,15 @@ public class AccountsController implements Initializable {
                 alert.showAndWait();
             } else {
                 String response = clientsRepo.eventSavingMoney(-amount);
+                clientsRepo.getEverything(GlobalData.getInstance().getClient().getId());
+                initialize(null, null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(response);
                 alert.showAndWait();
             }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+
             alert.setContentText("Số tiền phải là số nguyên");
             alert.showAndWait();
         }
