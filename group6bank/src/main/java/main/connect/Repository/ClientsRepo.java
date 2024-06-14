@@ -367,4 +367,35 @@ public class ClientsRepo {
             return false;
         }
     }
+
+    public String checkPassword(String passWord) {
+
+        try {
+
+            // URL của API
+            String apiUrl = "http://localhost:8080/password?password=" + passWord;
+            // Mở kết nối HTTP
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            // Lấy dữ liệu từ API
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+            // Phân tích dữ liệu JSON và tạo đối tượng Clients
+            String jsonResponse = response.toString();
+            // Đóng kết nối
+            conn.disconnect();
+            return jsonResponse;
+        } catch (IOException e) {
+            // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
+            e.printStackTrace();
+            return "Thất bại"; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+        }
+    }
 }

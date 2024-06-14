@@ -3,13 +3,19 @@ package main.java.Controllers.Admin;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import main.connect.Models.Clients;
 import main.connect.Repository.ClientsRepo;
+import main.java.GlobalDataAdmin;
 
 public class CreateClientsController implements Initializable {
 
@@ -34,6 +40,17 @@ public class CreateClientsController implements Initializable {
         clientsRepo.getListClients();
         lbl_password_check.setVisible(false);
         lbl_payeeAddress_check.setVisible(false);
+        checkPassword();
+    }
+
+    void checkPassword() {
+        password_fld.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                lbl_password_check.setText(clientsRepo.checkPassword(newValue));
+                lbl_password_check.setVisible(true);
+            }
+        });
     }
 
     void CreateClientEvent() {
