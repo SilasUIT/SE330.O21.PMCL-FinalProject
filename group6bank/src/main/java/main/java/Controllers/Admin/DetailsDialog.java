@@ -1,5 +1,7 @@
 package main.java.Controllers.Admin;
 
+import java.text.DecimalFormat;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -26,22 +28,25 @@ public class DetailsDialog extends Dialog<Void> {
         content.setPadding(new Insets(20));
         content.setAlignment(Pos.CENTER);
 
+        DecimalFormat formatter = new DecimalFormat("#,###");
+
         if (savingAccount != null) {
             VBox savingBox = createAccountBox("Tài khoản tiết kiệm", savingAccount.getAccountNumber(),
-                    savingAccount.getBalance());
+                    formatter.format(savingAccount.getBalance()));
             content.getChildren().add(savingBox);
         }
-
+        
         if (checkingAccount != null) {
             VBox checkingBox = createAccountBox("Tài khoản thanh toán", checkingAccount.getAccountNumber(),
-                    checkingAccount.getBalance());
+                    formatter.format(checkingAccount.getBalance()));
             content.getChildren().add(checkingBox);
         }
-
+        
         getDialogPane().setContent(content);
+        
     }
 
-    private VBox createAccountBox(String accountType, String accountNumber, double balance) {
+    private VBox createAccountBox(String accountType, String accountNumber, String string) {
         Label typeLabel = new Label(accountType);
         typeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 
@@ -50,7 +55,7 @@ public class DetailsDialog extends Dialog<Void> {
         HBox accountNumberBox = new HBox(10, accountNumberLabel, accountNumberValue);
 
         Label balanceLabel = new Label("Số dư:");
-        Label balanceValue = new Label(String.valueOf(balance));
+        Label balanceValue = new Label(String.valueOf(string));
         HBox balanceBox = new HBox(10, balanceLabel, balanceValue);
 
         VBox accountBox = new VBox(10, typeLabel, accountNumberBox, balanceBox);

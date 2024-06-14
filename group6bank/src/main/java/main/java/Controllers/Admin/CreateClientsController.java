@@ -67,10 +67,10 @@ public class CreateClientsController implements Initializable {
         }
         if (sv_acc_box.isSelected() == true) {
             try {
-                svMoney = Float.valueOf(sv_amount_fld.getText());
+                svMoney = Integer.valueOf(sv_amount_fld.getText());
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("tiền phải là số");
+                alert.setContentText("tiền phải là số nguyên dương");
                 alert.showAndWait();
                 return;
             }
@@ -78,10 +78,10 @@ public class CreateClientsController implements Initializable {
         }
         if (sv_acc_box.isSelected() == true) {
             try {
-                ckMoney = Float.valueOf(ch_amount_fld.getText());
+                ckMoney = Integer.valueOf(ch_amount_fld.getText());
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("tiền phải là số");
+                alert.setContentText("tiền phải là số nguyên dươngà ");
                 alert.showAndWait();
                 return;
             }

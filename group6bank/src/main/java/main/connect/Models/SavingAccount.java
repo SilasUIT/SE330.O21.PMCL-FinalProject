@@ -1,5 +1,7 @@
 package main.connect.Models;
 
+import java.math.BigDecimal;
+
 public class SavingAccount {
     String id;
     String idOwner;
@@ -91,6 +93,11 @@ public class SavingAccount {
 
         // Tạo đối tượng CheckingAccount từ dữ liệu phân tích
         return new SavingAccount(id, idOwner, accountNumber, withDrawLimit, balance);
+    }
+
+    public String getFormattedBalance() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFormattedBalance'");
     }
 
 }
