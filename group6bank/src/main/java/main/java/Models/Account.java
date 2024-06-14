@@ -28,6 +28,4 @@ public class Account {
     public DoubleProperty balanceProperty() {
         return balance;
     }
-
-
 }

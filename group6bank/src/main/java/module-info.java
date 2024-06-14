@@ -6,7 +6,6 @@ module main.java {
     requires org.mongodb.bson;
     requires org.mongodb.driver.core;
     requires org.mongodb.driver.sync.client;
-    requires io.github.cdimascio.dotenv.java;
 
     requires org.json;
     requires org.apache.httpcomponents.client5.httpclient5;

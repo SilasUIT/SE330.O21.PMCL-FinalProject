@@ -47,8 +47,8 @@ public class GlobalData {
         return this.savingAccount;
     }
 
-    public void setSavingAccount(SavingAccount savingAccount) {
 
+    public void setSavingAccount(SavingAccount savingAccount) {
         this.savingAccount = savingAccount;
     }
 
@@ -80,4 +80,5 @@ public class GlobalData {
     public ObservableList<Transaction> getTransactionObs() {
         return (ObservableList<Transaction>) transaction;
     }
+
 }

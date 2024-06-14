@@ -15,6 +15,7 @@ import main.connect.Repository.ClientsRepo;
 import main.java.GlobalData;
 import main.java.Models.Model;
 import main.java.Views.AccountType;
+import javafx.scene.input.KeyCode;
 
 public class LoginController implements Initializable {
     public ChoiceBox<String> acc_selector;
@@ -33,6 +34,20 @@ public class LoginController implements Initializable {
         acc_selector.valueProperty().addListener(observable -> Model.getInstance().getViewFactory()
                 .setLoginAccoutnType(AccountType.fromString(acc_selector.getValue())));
         login_btn.setOnAction(e -> onlogin());
+
+        // Set up Enter key event for payee_address_fld
+        payee_address_fld.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onlogin();
+            }
+        });
+
+        // Set up Enter key event for password_fld
+        password_fld.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onlogin();
+            }
+        });
     }
 
     public void onlogin() {

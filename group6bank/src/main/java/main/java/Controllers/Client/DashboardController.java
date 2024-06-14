@@ -1,6 +1,7 @@
 package main.java.Controllers.Client;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -67,7 +68,6 @@ public class DashboardController implements Initializable {
     }
 
     void LoadForm() {
-
         fetchData();
         send_money_btn.setOnAction((e) -> send_money_btn_event_click());
     }
@@ -103,16 +103,17 @@ public class DashboardController implements Initializable {
     }
 
     void fetchData() {
+        DecimalFormat formatter = new DecimalFormat("#,###");
         user_name.setText(("Chào mừng đã trở lại, " + client.getFirstName() + "" + client.getLastName()));
 
-        saving_bal.setText(Float.toString(savingAccount.getBalance()));
+        saving_bal.setText(formatter.format(savingAccount.getBalance()));
 
         String lastFourCharsSV = savingAccount.getAccountNumber()
                 .substring(savingAccount.getAccountNumber().length() - 4);
         String lastFourCharsCK = checkingAccount.getAccountNumber()
                 .substring(checkingAccount.getAccountNumber().length() - 4);
         saving_acc_num.setText(lastFourCharsSV);
-        checking_bal.setText(Float.toString(checkingAccount.getBalance()));
+        checking_bal.setText(formatter.format(checkingAccount.getBalance()));
         checking_acc_num.setText(lastFourCharsCK);
         if (GlobalData.getInstance().getTransaction() == null) {
             income_amount.setText("0");

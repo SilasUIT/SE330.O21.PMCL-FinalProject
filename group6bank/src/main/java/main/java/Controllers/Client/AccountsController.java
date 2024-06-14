@@ -1,6 +1,7 @@
 package main.java.Controllers.Client;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
@@ -39,14 +40,15 @@ public class AccountsController implements Initializable {
     }
 
     void LoadForm() {
-        sv_acc_bal.setText(Float.toString(savingAccount.getBalance()));
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        sv_acc_bal.setText(formatter.format(savingAccount.getBalance()));
         sv_acc_num.setText(savingAccount.getAccountNumber());
-        ch_acc_bal.setText(Float.toString(checkingAccount.getBalance()));
+        ch_acc_bal.setText(formatter.format(checkingAccount.getBalance()));
         ch_acc_num.setText(checkingAccount.getAccountNumber());
         ch_acc_date.setText(GlobalData.getInstance().getClient().getDateOfBirth());
         sv_acc_date.setText(GlobalData.getInstance().getClient().getDateOfBirth());
-        transaction_limit.setText(String.valueOf(checkingAccount.getTransactionAmount()));
-        withdrawal_limit.setText(String.valueOf(savingAccount.getWithDrawLimit()));
+        transaction_limit.setText(formatter.format(checkingAccount.getTransactionAmount()));
+        withdrawal_limit.setText(formatter.format(savingAccount.getWithDrawLimit()));
         trans_to_sv_btn.setOnAction(e -> SavingMoney());
         trans_to_cv_btn.setOnAction(e -> getSavingMoney());
     }
