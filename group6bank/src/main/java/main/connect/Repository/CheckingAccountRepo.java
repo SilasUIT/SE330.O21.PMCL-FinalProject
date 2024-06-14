@@ -38,7 +38,7 @@ public class CheckingAccountRepo {
             CheckingAccount checkingAccount = CheckingAccount.parseJsonToCheckingAccount(jsonResponse);
             // Đóng kết nối
             conn.disconnect();
-
+            GlobalData.getInstance().setCheckingAccount(null);
             GlobalData.getInstance().setCheckingAccount(checkingAccount);
         } catch (IOException e) {
             // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
