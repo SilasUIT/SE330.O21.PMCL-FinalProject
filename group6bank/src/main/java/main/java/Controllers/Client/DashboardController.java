@@ -2,6 +2,7 @@ package main.java.Controllers.Client;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -102,10 +103,21 @@ public class DashboardController implements Initializable {
         }
     }
 
+    String[] daysOfWeekNames = {
+        "Chủ Nhật",   // Sunday
+        "Thứ Hai",    // Monday
+        "Thứ Ba",     // Tuesday
+        "Thứ Tư",     // Wednesday
+        "Thứ Năm",    // Thursday
+        "Thứ Sáu",    // Friday
+        "Thứ Bảy"     // Saturday
+    };
+
+    
     void fetchData() {
         DecimalFormat formatter = new DecimalFormat("#,###");
         user_name.setText(("Chào mừng đã trở lại, " + client.getFirstName() + "" + client.getLastName()));
-
+        date_login_lbl.setText(daysOfWeekNames[LocalDate.now().getDayOfWeek().getValue() % 7]  + ", ngày " + LocalDate.now().getDayOfMonth() + ", tháng " + LocalDate.now().getMonthValue() + ", năm " + LocalDate.now().getYear());
         saving_bal.setText(formatter.format(savingAccount.getBalance()));
 
         String lastFourCharsSV = savingAccount.getAccountNumber()
@@ -118,13 +130,13 @@ public class DashboardController implements Initializable {
         if (GlobalData.getInstance().getTransaction() == null) {
             income_amount.setText("0");
         } else {
-            income_amount.setText(transactionRepo.getLastIncome(GlobalData.getInstance().getClient().getPayeeAdress()));
+            income_amount.setText(formatter.format(Double.parseDouble((transactionRepo.getLastIncome(GlobalData.getInstance().getClient().getPayeeAdress())))));
         }
         if (GlobalData.getInstance().getTransaction() == null) {
             expense_amount.setText("0");
         } else {
             expense_amount
-                    .setText(transactionRepo.getLastExpense(GlobalData.getInstance().getClient().getPayeeAdress()));
+                    .setText(formatter.format(Double.parseDouble(transactionRepo.getLastExpense(GlobalData.getInstance().getClient().getPayeeAdress()))));
         }
 
         if (!GlobalData.getInstance().getTransaction().isEmpty()) {

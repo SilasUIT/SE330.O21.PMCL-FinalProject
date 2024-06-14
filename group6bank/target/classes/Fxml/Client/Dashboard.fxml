@@ -69,7 +69,7 @@
       <Text layoutX="739.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="section_title" text="Chuyển tiền" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="340.0" />
       <VBox layoutX="632.0" layoutY="404.0" prefHeight="366.0" prefWidth="240.0" styleClass="new_trans_container" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <Label text="Số tài khoản" />
+            <Label text="Tên ví" />
             <TextField fx:id="payee_fld" />
             <Label text="Số tiền" />
             <TextField fx:id="amount_fld" />
