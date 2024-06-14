@@ -15,11 +15,10 @@ import main.java.Controllers.Client.ClientController;
 public class ViewFactory {
     private AccountType loginAccoutnType;
     // Client views
-    private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;    
+    private final ObjectProperty<ClientMenuOptions> clientSelectedMenuItem;
     private AnchorPane dashboardView;
     private AnchorPane transactionsView;
     private AnchorPane accountsView;
-
 
     // Admin views
     private final ObjectProperty<AdminMenuOptions> adminSelectedMenuItem;
@@ -31,7 +30,7 @@ public class ViewFactory {
         this.loginAccoutnType = AccountType.CLIENT;
         this.clientSelectedMenuItem = new SimpleObjectProperty<>();
         this.adminSelectedMenuItem = new SimpleObjectProperty<>();
-    }    
+    }
 
     public AccountType getLoginAccoutnType() {
         return loginAccoutnType;
@@ -44,13 +43,15 @@ public class ViewFactory {
     public ObjectProperty<ClientMenuOptions> getSelectedMenuItems() {
         return clientSelectedMenuItem;
     }
+
     public ObjectProperty<AdminMenuOptions> getSelectedAdminMenuItems() {
-        
+
         return adminSelectedMenuItem;
     }
     /* Client views Section */
 
     public AnchorPane getDashboardView() {
+
         if (dashboardView == null) {
             try {
                 dashboardView = new FXMLLoader(getClass().getResource("/Fxml/Client/Dashboard.fxml")).load();
@@ -71,6 +72,7 @@ public class ViewFactory {
         }
         return transactionsView;
     }
+
     public AnchorPane getAccountsView() {
         if (accountsView == null) {
             try {
@@ -82,8 +84,8 @@ public class ViewFactory {
         return accountsView;
     }
 
-    /*Admin views Section*/
-    
+    /* Admin views Section */
+
     public AnchorPane getadminCreateClientView() {
         if (adminCreateClientView == null) {
             try {
@@ -116,10 +118,9 @@ public class ViewFactory {
         }
         return adminDepositView;
     }
-    
 
     public void showLoginPage() {
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Login.fxml"));
         createStage(loader);
     }
@@ -155,5 +156,11 @@ public class ViewFactory {
 
     public void closeStage(Stage stage) {
         stage.close();
+    }
+
+    public void clearCachedViews() {
+        dashboardView = null;
+        transactionsView = null;
+        accountsView = null;
     }
 }

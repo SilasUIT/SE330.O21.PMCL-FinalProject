@@ -56,7 +56,6 @@ public class DetailsDialog extends Dialog<Void> {
         VBox accountBox = new VBox(10, typeLabel, accountNumberBox, balanceBox);
         accountBox.setPadding(new Insets(10));
         accountBox.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-border-radius: 5;");
-
         return accountBox;
 
     }

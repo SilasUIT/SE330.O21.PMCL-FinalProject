@@ -13,20 +13,21 @@
       <Text layoutX="214.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thêm tài khoản mới" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <VBox fillWidth="false" prefHeight="700.0" prefWidth="600.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="42.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Họ và tên:" />
-            <TextField fx:id="name_fld" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa chỉ ví" />
-            <TextField fx:id="pAddress_fld"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Họ" />
+            <TextField fx:id="fName_fld" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên" />
+            <TextField fx:id="lName_fld" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mật khẩu" />
             <TextField fx:id="password_fld" />
+            <Label fx:id="lbl_password_check" text="Label" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa chỉ ví" />
-            <CheckBox fx:id="pAddress_box" mnemonicParsing="false" />
-            <Label fx:id="pAddress_lbl" styleClass="payee_address_lbl" />
+            <TextField fx:id="payeeAddress_fld" />
+            <Label fx:id="lbl_payeeAddress_check" text="Label" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tài khoản" />
-            <CheckBox mnemonicParsing="false" minWidth="200" text="Thêm tiền tài khoản chính" />
+            <CheckBox minWidth="200" mnemonicParsing="false" text="Thêm tiền tài khoản chính" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số tiền muốn thêm" />
             <TextField fx:id="ch_amount_fld" />
-            <CheckBox fx:id="sv_acc_box" minWidth="200" layoutX="10.0" mnemonicParsing="false" text="Thêm tiền tài khoản tiết kiệm" />
+            <CheckBox fx:id="sv_acc_box" layoutX="10.0" minWidth="200" mnemonicParsing="false" text="Thêm tiền tài khoản tiết kiệm" />
             <Text layoutX="21.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số tiền muốn thêm" />
             <TextField fx:id="sv_amount_fld" />
             <Button fx:id="create_client_btn" mnemonicParsing="false" text="Tạo tài khoản" />

@@ -46,7 +46,7 @@ public class ClientMenuController implements Initializable {
 
     private void LogOut() {
         Stage stage = (Stage) name_bank.getScene().getWindow();
-
+        Model.getInstance().getViewFactory().clearCachedViews();
         GlobalData.getInstance().clearAllData();
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showLoginPage();

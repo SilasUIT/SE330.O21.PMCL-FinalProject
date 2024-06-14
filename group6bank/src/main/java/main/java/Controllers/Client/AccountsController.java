@@ -1,9 +1,5 @@
 package main.java.Controllers.Client;
 
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.ResourceBundle;
-
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,7 +10,12 @@ import main.connect.Models.SavingAccount;
 import main.connect.Repository.ClientsRepo;
 import main.java.GlobalData;
 
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.ResourceBundle;
+
 public class AccountsController implements Initializable {
+
     public Label ch_acc_num;
     public Label transaction_limit;
     public Label ch_acc_date;
@@ -28,19 +29,22 @@ public class AccountsController implements Initializable {
     public TextField amount_to_ch;
     public Button trans_to_cv_btn;
 
-    SavingAccount savingAccount;
-    CheckingAccount checkingAccount;
-    ClientsRepo clientsRepo = new ClientsRepo();
+    private SavingAccount savingAccount;
+    private CheckingAccount checkingAccount;
+    private ClientsRepo clientsRepo = new ClientsRepo();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        checkingAccount = GlobalData.getInstance().getCheckingAccount();
-        savingAccount = GlobalData.getInstance().getSavingAccount();
-        LoadForm();
+        loadAccountsData();
+        setupButtons();
     }
 
-    void LoadForm() {
+    private void loadAccountsData() {
+        savingAccount = GlobalData.getInstance().getSavingAccount();
+        checkingAccount = GlobalData.getInstance().getCheckingAccount();
+
         DecimalFormat formatter = new DecimalFormat("#,###");
+
         sv_acc_bal.setText(formatter.format(savingAccount.getBalance()));
         sv_acc_num.setText(savingAccount.getAccountNumber());
         ch_acc_bal.setText(formatter.format(checkingAccount.getBalance()));
@@ -49,54 +53,55 @@ public class AccountsController implements Initializable {
         sv_acc_date.setText(GlobalData.getInstance().getClient().getDateOfBirth());
         transaction_limit.setText(formatter.format(checkingAccount.getTransactionAmount()));
         withdrawal_limit.setText(formatter.format(savingAccount.getWithDrawLimit()));
-        trans_to_sv_btn.setOnAction(e -> SavingMoney());
-        trans_to_cv_btn.setOnAction(e -> getSavingMoney());
     }
 
-    void SavingMoney() {
-        try {
+    private void setupButtons() {
+        trans_to_sv_btn.setOnAction(e -> savingMoney());
+        trans_to_cv_btn.setOnAction(e -> withdrawingMoney());
+    }
 
-            float amount = Float.valueOf(amount_to_sv.getText());
+    private void savingMoney() {
+        try {
+            float amount = Float.parseFloat(amount_to_sv.getText());
             if (amount < 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Số tiền không được <0");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.INFORMATION, "Số tiền không được < 0");
             } else {
                 String response = clientsRepo.eventSavingMoney(amount);
-                clientsRepo.getEverything(GlobalData.getInstance().getClient());
-                initialize(null, null);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(response);
-                alert.showAndWait();
+                if (response != null && !response.isEmpty()) {
+                    showAlert(Alert.AlertType.INFORMATION, response);
+                    refreshData();
+                }
             }
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Số tiền phải là số nguyên");
-            alert.showAndWait();
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.WARNING, "Số tiền phải là số nguyên");
         }
     }
 
-    void getSavingMoney() {
+    private void withdrawingMoney() {
         try {
-
-            float amount = Float.valueOf(amount_to_ch.getText());
+            float amount = Float.parseFloat(amount_to_ch.getText());
             if (amount < 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Số tiền không được <0");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.INFORMATION, "Số tiền không được < 0");
             } else {
                 String response = clientsRepo.eventSavingMoney(-amount);
-                clientsRepo.getEverything(GlobalData.getInstance().getClient());
-                initialize(null, null);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(response);
-                alert.showAndWait();
+                if (response != null && !response.isEmpty()) {
+                    showAlert(Alert.AlertType.INFORMATION, response);
+                    refreshData();
+                }
             }
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-
-            alert.setContentText("Số tiền phải là số nguyên");
-            alert.showAndWait();
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.WARNING, "Số tiền phải là số nguyên");
         }
+    }
+
+    private void refreshData() {
+        clientsRepo.getEverything(GlobalData.getInstance().getClient());
+        loadAccountsData();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

@@ -54,8 +54,8 @@ public class ClientsRepo {
 
                 // Đóng kết nối
                 conn.disconnect();
-                getCheckingSavingAndTransaction(client);
                 GlobalData.getInstance().setClient(client);
+                getEverything(client);
                 return true;
             } else {
 
@@ -173,19 +173,20 @@ public class ClientsRepo {
         getCheckingSavingAndTransaction(clients);
     }
 
-    public String toJson(String name, String payeeAdress, String passWord) {
+    public String toJson(String fName, String lName, String payeeAdress, String passWord) {
         return "{"
-                + "\"firstName\":\"" + name + "\","
-                + "\"lastName\":\" \","
+                + "\"firstName\":\"" + fName + "\","
+                + "\"lastName\":\"" + lName + "\","
                 + "\"payeeAddress\":\"" + payeeAdress + "\","
                 + "\"passWord\":\"" + passWord + "\","
                 + "\"dateOfBirth\":\"29/01/2003 \""
                 + "}";
     }
 
-    public String addUser(String name, String payeeAdress, String passWord, float moneyCheck, float moneySave) {
+    public String addUser(String fName, String lName, String payeeAdress, String passWord, float moneyCheck,
+            float moneySave) {
         String apiUrl = "http://localhost:8080/addUserwithMoney?moneyCh=" + moneyCheck + "&moneySv=" + moneySave;
-        String jsonInputString = toJson(name, payeeAdress, passWord);
+        String jsonInputString = toJson(fName, lName, payeeAdress, passWord);
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost httpPost = new HttpPost(apiUrl);
             httpPost.setHeader("Content-Type", "application/json");
