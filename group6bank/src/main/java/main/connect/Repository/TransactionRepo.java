@@ -1,6 +1,4 @@
 package main.connect.Repository;
-
-import main.connect.Models.SavingAccount;
 import main.connect.Models.Transaction;
 import main.java.GlobalData;
 import java.io.BufferedReader;

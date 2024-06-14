@@ -89,7 +89,7 @@ public class ViewFactory {
 
         if (profileView == null) {
             try {
-                dashboardView = new FXMLLoader(getClass().getResource("/Fxml/Client/Profile.fxml")).load();
+                profileView = new FXMLLoader(getClass().getResource("/Fxml/Client/Profile.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,6 @@
 package main.connect.Repository;
 
 import main.connect.Models.CheckingAccount;
-import main.connect.Models.SavingAccount;
 import main.java.GlobalData;
 import java.io.BufferedReader;
 import java.io.IOException;
