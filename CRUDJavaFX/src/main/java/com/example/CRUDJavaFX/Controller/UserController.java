@@ -152,6 +152,10 @@ public class UserController {
         if(use1.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Địa chỉ ví này đã tồn tại");
         }
+        if(user.getPayeeAddress()==null || !isValidPayeeAddress(user.getPassWord()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Địa chỉ ví có ít nhất 6 kí tự, 1 số, 1 chữ hoa và 1 kí từ đặc bie");
+        }
         if(user.getPassWord()==null || !isValidPassword(user.getPassWord()))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mật khẩu có ít nhất 6 kí tự, 1 số và 1 chữ hoa");
@@ -196,5 +200,29 @@ public class UserController {
             return false;
         }
         return password.matches(PASSWORD_PATTERN);
+    }
+
+    @GetMapping("/password")
+    public ResponseEntity<String> getValidPassWord(@RequestParam String password)
+    {
+        if(password==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK).body("Mật khẩu không được trống");
+        }
+        if(!isValidPassword(password))
+            return ResponseEntity.status(HttpStatus.OK).body("Mật khẩu phải có ít nhất 6 kí tự gồm chữ, số và chữ hoa");
+        return ResponseEntity.status(HttpStatus.OK).body("Hợp lệ");
+    }
+
+
+
+    public boolean isValidPayeeAddress(String payeeAddress) {
+        // Kiểm tra xem chuỗi có ít nhất 6 ký tự và chứa ít nhất một chữ hoa, một chữ thường,
+        // một ký tự đặc biệt và một số
+        return payeeAddress != null && payeeAddress.length() >= 6
+                && payeeAddress.matches(".*[A-Z].*")
+                && payeeAddress.matches(".*[a-z].*")
+                && payeeAddress.matches(".*[0-9].*")
+                && payeeAddress.matches(".*[!@#$%^&*()].*"); // Thêm các ký tự đặc biệt bạn muốn cho phép
     }
 }
