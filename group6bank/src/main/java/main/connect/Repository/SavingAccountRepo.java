@@ -39,7 +39,7 @@ public class SavingAccountRepo {
 
             // Đóng kết nối
             conn.disconnect();
-
+            GlobalData.getInstance().setSavingAccount(null);
             GlobalData.getInstance().setSavingAccount(savingAccount);
 
         } catch (IOException e) {

@@ -16,8 +16,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import main.connect.Models.CheckingAccount;
 import main.connect.Models.Clients;
+import main.connect.Repository.CheckingAccountRepo;
 import main.connect.Repository.ClientsRepo;
+import main.connect.Repository.SavingAccountRepo;
+import main.java.GlobalData;
 import main.java.GlobalDataAdmin;
 import main.java.Controllers.DeleteUserDialog;
 import main.java.Models.Model;
@@ -30,6 +34,7 @@ public class ClientsController implements Initializable {
     public TableColumn<Clients, String> cl_dateCreate;
     public Button btn_Del;
     public BorderPane admin_parent;
+    public Button btn_View;
     public final ClientsRepo clientsRepo = new ClientsRepo();
 
     @Override
@@ -49,6 +54,7 @@ public class ClientsController implements Initializable {
         fetchTableView();
         onChangeSearch();
         btn_Del.setOnAction(e -> onClickDelete());
+        btn_View.setOnAction(e -> onClickShowData());
     }
 
     public void fetchTableView() {
@@ -122,6 +128,18 @@ public class ClientsController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("vui lòng chọn người dùng trước khi xóa");
             alert.showAndWait();
+        }
+    }
+
+    public void onClickShowData() {
+        if (tb_Client.getSelectionModel().getSelectedItem() != null) {
+            SavingAccountRepo savingAccountRepo = new SavingAccountRepo();
+            CheckingAccountRepo checkingAccountRepo = new CheckingAccountRepo();
+            checkingAccountRepo.GetCheckingAccount(tb_Client.getSelectionModel().getSelectedItem().getId());
+            savingAccountRepo.GetSavingAccount(tb_Client.getSelectionModel().getSelectedItem().getId());
+            DetailsDialog dialog = new DetailsDialog(GlobalData.getInstance().getSavingAccount(),
+                    GlobalData.getInstance().getCheckingAccount());
+            dialog.showAndWait();
         }
     }
 }
