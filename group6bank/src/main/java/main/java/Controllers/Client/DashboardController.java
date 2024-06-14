@@ -1,25 +1,37 @@
 package main.java.Controllers.Client;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.util.Callback;
+
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.connect.Models.CheckingAccount;
 import main.connect.Models.Clients;
 import main.connect.Models.SavingAccount;
+import main.connect.Models.Transaction;
 import main.connect.Repository.ClientsRepo;
 import main.connect.Repository.TransactionRepo;
 import main.java.GlobalData;
-import main.java.GlobalDataAdmin;
 
 public class DashboardController implements Initializable {
 
@@ -31,7 +43,11 @@ public class DashboardController implements Initializable {
     public Label saving_acc_num;
     public Label income_amount;
     public Label expense_amount;
-    public ListView transaction_listview;
+    public TableView<Transaction> tb_view;
+    public TableColumn<Transaction, Float> cl_money;
+    public TableColumn<Transaction, String> cl_sender;
+    public TableColumn<Transaction, String> cl_receiver;
+    public TableColumn<Transaction, String> cl_message;
     public TextField payee_fld;
     public TextField amount_fld;
     public TextArea message_fld;
@@ -76,7 +92,7 @@ public class DashboardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(response);
             alert.showAndWait();
-            clientsRepo.getEverything(GlobalData.getInstance().getClient().getId());
+            clientsRepo.getEverything(GlobalData.getInstance().getClient());
             initialize(null, null);
 
         } catch (Exception e) {
@@ -108,6 +124,22 @@ public class DashboardController implements Initializable {
         } else {
             expense_amount
                     .setText(transactionRepo.getLastExpense(GlobalData.getInstance().getClient().getPayeeAdress()));
+        }
+
+        if (!GlobalData.getInstance().getTransaction().isEmpty()) {
+
+            List<Transaction> transactions = GlobalData.getInstance().getTransaction();
+
+            // Chuyển đổi danh sách thông thường thành ObservableList
+            ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList(transactions);
+
+            // Gán ObservableList cho ListView
+            tb_view.setItems(observableTransactionList);
+            cl_money.setCellValueFactory(new PropertyValueFactory<>("amount"));
+            cl_sender.setCellValueFactory(new PropertyValueFactory<>("addressSender"));
+            cl_receiver.setCellValueFactory(new PropertyValueFactory<>("addressReceiver"));
+            cl_message.setCellValueFactory(new PropertyValueFactory<>("message"));
+
         }
     }
 

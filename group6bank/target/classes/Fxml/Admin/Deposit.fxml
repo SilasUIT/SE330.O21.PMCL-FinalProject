@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" stylesheets="@../../Styles/Deposit.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.Controllers.Admin.DepositController">
+<AnchorPane fx:id="admin_parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" stylesheets="@../../Styles/Deposit.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.Controllers.Admin.DepositController">
    <children>
       <VBox layoutX="15.0" layoutY="90.0" prefHeight="570.0" prefWidth="820.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0">
          <children>
@@ -24,7 +26,16 @@
                   </Button>
                </children>
             </HBox>
-            <ListView fx:id="result_listview" prefHeight="200.0" prefWidth="820.0" styleClass="search_box" />
+            <TableView fx:id="tb_Search" prefHeight="196.0" prefWidth="761.0">
+              <columns>
+                <TableColumn fx:id="cl_name" prefWidth="193.0" text="Tên" />
+                <TableColumn fx:id="cl_payeeAddress" prefWidth="256.0" text="Địa chỉ ví" />
+                  <TableColumn fx:id="cl_dateCreate" prefWidth="210.0" text="Ngày tạo tài khoản" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="80.0" right="80.0" />
+               </VBox.margin>
+            </TableView>
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="315.0" prefWidth="100.0" styleClass="deposit_box">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phần tiền gửi" />

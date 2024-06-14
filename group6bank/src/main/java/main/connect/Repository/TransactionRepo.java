@@ -16,6 +16,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
+import java.util.stream.Collectors;
 
 public class TransactionRepo {
     public void GetListTransaction(String id) {
@@ -38,6 +39,10 @@ public class TransactionRepo {
             String jsonResponse = response.toString();
             List<Transaction> transactions = Transaction.parseJsonToTransactionList(jsonResponse);
             // Xử lý danh sách transactions (ví dụ: in ra hoặc lưu vào đâu đó)
+
+            for (Transaction transaction : transactions) {
+                System.out.println(transaction.getAddressReceiver());
+            }
             GlobalData.getInstance().setTransaction(transactions);
             // Đóng kết nối
             conn.disconnect();
@@ -131,6 +136,20 @@ public class TransactionRepo {
         } catch (Exception ex) {
             ex.printStackTrace();
             return "0";
+        }
+    }
+
+    public List<Transaction> GetListTransactionFound(String id) {
+        try {
+            List<Transaction> foundTransactions = GlobalData.getInstance().getTransaction().stream()
+                    .filter(e -> e.getAddressReceiver().contains(id) || e.getAddressSender().contains(id))
+                    .collect(Collectors.toList());
+
+            return foundTransactions;
+        } catch (Exception e) {
+            // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
+            e.printStackTrace();
+            return null;
         }
     }
 }

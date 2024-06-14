@@ -79,4 +79,27 @@ public class TransactionController {
         }
         return ResponseEntity.ok(transactionRecei.get(0).getAmount());
     }
+
+    @GetMapping("/regex")
+    public ResponseEntity<?> getListTransactionFound(@RequestParam String id) {
+        List<Transaction> transactionList1 = transactionRepo.findTransactionsByAddressSenderRegex(id);
+        List<Transaction> transactionList2 = transactionRepo.findTransactionsByAddressReceiverRegex(id);
+        List<Transaction> transactionList = null;
+        if(transactionList1.isEmpty() && transactionList2.isEmpty()){
+            return ResponseEntity.ok(false);
+        }
+       else {
+           if(transactionList1.isEmpty()){
+               transactionList = transactionList2;
+               return ResponseEntity.ok(transactionList);
+           }
+           if (transactionList2.isEmpty()) {
+               transactionList=transactionList1;
+               return ResponseEntity.ok(transactionList);
+           }
+           transactionList.addAll(transactionList1);
+           transactionList.addAll(transactionList2);
+           return ResponseEntity.ok(transactionList);
+        }
+    }
 }

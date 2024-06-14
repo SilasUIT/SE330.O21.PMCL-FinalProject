@@ -6,6 +6,8 @@ import main.connect.Models.SavingAccount;
 import main.connect.Models.Transaction;
 import java.util.List;
 
+import javafx.collections.ObservableList;
+
 public class GlobalData {
 
     private static GlobalData instance;
@@ -73,5 +75,9 @@ public class GlobalData {
         if (this.transaction != null) {
             this.transaction.clear();
         }
+    }
+
+    public ObservableList<Transaction> getTransactionObs() {
+        return (ObservableList<Transaction>) transaction;
     }
 }

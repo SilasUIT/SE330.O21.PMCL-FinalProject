@@ -61,7 +61,7 @@ public class AccountsController implements Initializable {
                 alert.showAndWait();
             } else {
                 String response = clientsRepo.eventSavingMoney(amount);
-                clientsRepo.getEverything(GlobalData.getInstance().getClient().getId());
+                clientsRepo.getEverything(GlobalData.getInstance().getClient());
                 initialize(null, null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(response);
@@ -84,7 +84,7 @@ public class AccountsController implements Initializable {
                 alert.showAndWait();
             } else {
                 String response = clientsRepo.eventSavingMoney(-amount);
-                clientsRepo.getEverything(GlobalData.getInstance().getClient().getId());
+                clientsRepo.getEverything(GlobalData.getInstance().getClient());
                 initialize(null, null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(response);

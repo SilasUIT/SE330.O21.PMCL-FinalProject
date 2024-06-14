@@ -8,5 +8,6 @@ import java.util.List;
 public interface TransactionRepo extends MongoRepository<Transaction, String> {
     List<Transaction> findAllByAddressSenderOrderByDateDesc(String id);
     List<Transaction> findAllByAddressReceiverOrderByDateDesc(String id);
-
+    List<Transaction> findTransactionsByAddressSenderRegex(String id);
+    List<Transaction> findTransactionsByAddressReceiverRegex(String id);
 }

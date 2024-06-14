@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" styleClass="clients_container" stylesheets="@../../Styles/Clients.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.Controllers.Admin.ClientsController">
    <children>
       <Text layoutX="211.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách các khách hàng" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <ListView fx:id="clients_listview" prefHeight="650.0" prefWidth="800.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="50.0" />
+      <TextField fx:id="search_fld" layoutX="46.0" layoutY="128.0" prefHeight="25.0" prefWidth="717.0" />
+      <TableView fx:id="tb_Client" layoutX="46.0" layoutY="175.0" prefHeight="408.0" prefWidth="717.0">
+        <columns>
+          <TableColumn fx:id="cl_name" prefWidth="167.0" text="Tên" />
+          <TableColumn fx:id="cl_payeeAddress" prefWidth="342.0" text="Địa chỉ ví" />
+            <TableColumn fx:id="cl_dateCreate" prefWidth="207.0" text="Ngày Tạo" />
+        </columns>
+      </TableView>
+      <Button fx:id="btn_Del" layoutX="159.0" layoutY="633.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Xóa" />
+      <Button fx:id="btn_View" layoutX="451.0" layoutY="633.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Xem" />
    </children>
 </AnchorPane>

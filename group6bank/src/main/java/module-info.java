@@ -20,4 +20,5 @@ module main.java {
     exports main.java.Controllers.Client;
     exports main.java.Models;
     exports main.java.Views;
+    exports main.connect.Models;
 }

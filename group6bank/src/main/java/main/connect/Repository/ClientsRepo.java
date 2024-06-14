@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -52,7 +54,7 @@ public class ClientsRepo {
 
                 // Đóng kết nối
                 conn.disconnect();
-                getCheckingSavingAndTransaction(client.getId());
+                getCheckingSavingAndTransaction(client);
                 GlobalData.getInstance().setClient(client);
                 return true;
             } else {
@@ -67,13 +69,13 @@ public class ClientsRepo {
         }
     }
 
-    void getCheckingSavingAndTransaction(String id) {
+    void getCheckingSavingAndTransaction(Clients clients) {
         SavingAccountRepo savingAccountRepo = new SavingAccountRepo();
         CheckingAccountRepo checkingAccountRepo = new CheckingAccountRepo();
         TransactionRepo transactionRepo = new TransactionRepo();
-        checkingAccountRepo.GetCheckingAccount(id);
-        savingAccountRepo.GetSavingAccount(id);
-        transactionRepo.GetListTransaction(id);
+        checkingAccountRepo.GetCheckingAccount(clients.getId());
+        savingAccountRepo.GetSavingAccount(clients.getId());
+        transactionRepo.GetListTransaction(clients.getPayeeAdress());
     }
 
     public String eventSavingMoney(float amount) {
@@ -166,9 +168,9 @@ public class ClientsRepo {
         }
     }
 
-    public void getEverything(String id) {
+    public void getEverything(Clients clients) {
         GlobalData.getInstance().clearAllDataExeptClient();
-        getCheckingSavingAndTransaction(id);
+        getCheckingSavingAndTransaction(clients);
     }
 
     public String toJson(String name, String payeeAdress, String passWord) {
@@ -277,10 +279,6 @@ public class ClientsRepo {
             List<Clients> clients = Clients.parseJsonToClientList(jsonResponse);
 
             // In ra danh sách Clients để kiểm tra
-            for (Clients client : clients) {
-                System.out.println(
-                        "ID: " + client.getId() + ", Name: " + client.getFirstName() + " " + client.getLastName());
-            }
             GlobalDataAdmin.getInstance().setClientsFound(null);
             GlobalDataAdmin.getInstance().setClientsFound(clients);
             // Đóng kết nối
@@ -327,6 +325,45 @@ public class ClientsRepo {
             // Xử lý trường hợp nhập sai tên ví hoặc mật khẩu
             e.printStackTrace();
             return "Thất bại"; // hoặc trả về một giá trị thích hợp khác tùy thuộc vào logic ứng dụng của bạn
+        }
+    }
+
+    public boolean DeleteUser(String idUser) {
+        try {
+            // URL của API
+            String apiUrl = "http://localhost:8080/deleteUser/" + idUser;
+
+            // Mở kết nối HTTP
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            System.out.println("1");
+            // Lấy dữ liệu từ API
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) { // 200 OK
+                System.out.println("2");
+                // Lấy dữ liệu từ API
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                // Đóng kết nối
+                conn.disconnect();
+
+                return true;
+            } else {
+                conn.disconnect();
+                return false;
+            }
+        } catch (IOException e) {
+            System.out.println("3");
+            e.printStackTrace();
+            return false;
         }
     }
 }

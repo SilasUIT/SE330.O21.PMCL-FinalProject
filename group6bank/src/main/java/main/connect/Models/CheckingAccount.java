@@ -77,7 +77,7 @@ public class CheckingAccount {
                 case "accountNumber":
                     accountNumber = value;
                     break;
-                case "withDrawLimit":
+                case "transactionAmount":
                     transactionAmount = Float.parseFloat(value);
                     break;
                 case "balance":

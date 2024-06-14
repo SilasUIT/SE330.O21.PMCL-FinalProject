@@ -31,4 +31,14 @@ public class GlobalDataAdmin {
         }
         return instance;
     }
+
+    public void clearAllData() {
+
+        if (this.clients != null) {
+            this.clients.clear();
+        }
+        if (this.clientsFound != null) {
+            this.clientsFound.clear();
+        }
+    }
 }
